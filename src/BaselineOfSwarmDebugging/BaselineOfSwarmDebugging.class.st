@@ -11,8 +11,7 @@ BaselineOfSwarmDebugging >> baseline: spec [
 		for: #common
 		do: [
 			spec
-				package: 'SwarmDebugging';
-				package: 'SwarmDebugging-Test' with: [ spec requires: #('SwarmDebugging') ].
+				package: 'SwarmDebugging'.
 			spec
     			baseline: 'NeoJSON'
     			with: [ spec repository: 'github://svenvc/NeoJSON/repository' ].	 

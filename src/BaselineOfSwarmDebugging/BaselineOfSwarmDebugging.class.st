@@ -18,6 +18,9 @@ BaselineOfSwarmDebugging >> baseline: spec [
 			spec
     			baseline: 'TaskIt'
     			with: [ spec repository: 'github://sbragagnolo/taskit' ].
+			spec
+    			baseline: 'Sindarin'
+    			with: [ spec repository: 'github://dupriezt/ScriptableDebugger' ].
 		].
 ]
 

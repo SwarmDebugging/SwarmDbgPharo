@@ -8,13 +8,18 @@ The API is on the SindarinDebugger class.
 [Swarm View - v1](http://swarmserver.azurewebsites.net/)
 
 ## Install
-    Metacello new
-        repository: 'github://SwarmDebugging/SwarmDbgPharo:master';
-    baseline: 'SwarmDebugging';
-    load
+```SmallTalk
+Metacello new
+    repository: 'github://SwarmDebugging/SwarmDbgPharo:master';
+baseline: 'SwarmDebugging';
+load
+```
     
 ## Usage
-    dbg := SindarinDebugger debugSwarm: [<your code>].
-    "Manipulate and inspect the debugged execution by sending messages to dbg"
-    dbg stepSwarm; stepOverSwarm.
-    dbg context inspect.
+```SmallTalk
+dbg := SindarinDebugger debugSwarm: [<your code>].
+"Manipulate and inspect the debugged execution by sending messages to dbg"
+dbg stepSwarm; stepOverSwarm.
+dbg context inspect.
+...
+```

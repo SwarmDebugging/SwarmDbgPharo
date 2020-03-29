@@ -11,6 +11,9 @@ BaselineOfSwarmDebugging >> baseline: spec [
 		for: #common
 		do: [
 			spec
+    			baseline: 'Sindarin'
+    			with: [ spec repository: 'github://dupriezt/ScriptableDebugger' ].			
+			spec
 				package: 'SwarmDebugging'.
 			spec
     			baseline: 'NeoJSON'
@@ -18,9 +21,6 @@ BaselineOfSwarmDebugging >> baseline: spec [
 			spec
     			baseline: 'TaskIt'
     			with: [ spec repository: 'github://sbragagnolo/taskit' ].
-			spec
-    			baseline: 'Sindarin'
-    			with: [ spec repository: 'github://dupriezt/ScriptableDebugger' ].
 		].
 ]
 

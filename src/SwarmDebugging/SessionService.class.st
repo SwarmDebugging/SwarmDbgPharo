@@ -327,9 +327,9 @@ SessionService class >> registerBreakpoint: nodeContext [
 ]
 
 { #category : #public }
-SessionService class >> registerNewSession: context [
+SessionService class >> registerNewSession [
 
-	currentSession ifNotNil: [ ^self ].
+	currentSession ifNotNil: [ self endCurrentSession ].
 
 	swarmWindowData ifNil:[ swarmWindowData := 
 		WindowProperty new 
@@ -358,32 +358,17 @@ SessionService class >> registerNewSession: context [
 			pathNodes: OrderedCollection new.
 
 	Repository save: currentSession.
-	
+
 	self registerAlreadyAddedBreakpoints.
 ]
 
 { #category : #public }
-SessionService class >> registerNewSessionFromDebugWindow: context [
-
-	currentSession ifNotNil: [ ^self ].
-
-	self registerNewSession: context.
-	
-	self processStep: context stepName: 'StepInto'.
-]
-
-{ #category : #public }
-SessionService class >> registerStepInto: context [
-
-	self registerNewSession: context.
-	
+SessionService class >> registerStepInto: context [	
 	self processStep: context stepName: 'StepInto'.
 ]
 
 { #category : #public }
 SessionService class >> registerStepOver: context [
-
-	self registerNewSession: context.
 
 	self processStep: context stepName: 'StepOver'.
 	

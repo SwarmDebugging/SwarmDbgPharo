@@ -1,6 +1,15 @@
 Extension { #name : #SindarinDebugger }
 
 { #category : #'*SwarmDebugging' }
+SindarinDebugger class >> debugSwarm: aBlock [
+	
+	SessionService registerNewSession.
+	
+	^ self new debug: aBlock
+
+]
+
+{ #category : #'*SwarmDebugging' }
 SindarinDebugger >> stepOverSwarm [
 	| startContext |
 	startContext := self context.

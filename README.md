@@ -17,9 +17,9 @@ load
     
 ## Usage
 ```SmallTalk
-dbg := SindarinDebugger debugSwarm: [<your code>].
+dbg := SwarmSindarinDebugger debugSwarm: [<your code>].
 "Manipulate and inspect the debugged execution by sending messages to dbg"
-dbg stepSwarm; stepOverSwarm.
+dbg step; stepOver.
 dbg context inspect.
 ...
 ```

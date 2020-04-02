@@ -7,17 +7,6 @@ Class {
 	#category : #SwarmDebugging
 }
 
-{ #category : #'as yet unclassified' }
-SwarmSindarinDebugger class >> debugSwarm: aBlock [
-	
-	| instance |
-	SessionService registerNewSession.
-	
-	instance := self new debug: aBlock.
-	instance recordStep: true.
-	^ instance
-]
-
 { #category : #'stepping - steps' }
 SwarmSindarinDebugger >> initialize [
 	recordStep := false.

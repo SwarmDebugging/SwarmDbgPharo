@@ -1,36 +1,47 @@
 Class {
-	#name : #SwarmSindarinDebugger,
+	#name : #SindarinDebuggerSwarm,
 	#superclass : #SindarinDebugger,
 	#instVars : [
 		'recordStep'
 	],
-	#category : #SwarmDebugging
+	#category : #'SwarmDebugging-Service-Sindarin'
 }
 
+{ #category : #'as yet unclassified' }
+SindarinDebuggerSwarm class >> debugSwarm: aBlock [
+	
+	| instance |
+	SessionService registerNewSession.
+	
+	instance := self new debug: aBlock.
+	instance recordStep: true.
+	^ instance
+]
+
 { #category : #'stepping - steps' }
-SwarmSindarinDebugger >> initialize [
+SindarinDebuggerSwarm >> initialize [
 	recordStep := false.
 	super initialize.
 ]
 
 { #category : #accessing }
-SwarmSindarinDebugger >> recordStep [
+SindarinDebuggerSwarm >> recordStep [
 	^ recordStep
 ]
 
 { #category : #accessing }
-SwarmSindarinDebugger >> recordStep: aValue [
+SindarinDebuggerSwarm >> recordStep: aValue [
 	recordStep := aValue
 ]
 
 { #category : #'stepping - steps' }
-SwarmSindarinDebugger >> step [
+SindarinDebuggerSwarm >> step [
 	self recordStep ifTrue: [ SessionService registerStepInto: self context].
 	super step.
 ]
 
 { #category : #'stepping - steps' }
-SwarmSindarinDebugger >> stepOver [
+SindarinDebuggerSwarm >> stepOver [
 	SessionService registerStepOver: self context.
 	self recordStep: false.
 	super stepOver.

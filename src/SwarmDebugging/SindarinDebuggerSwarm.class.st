@@ -8,12 +8,13 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-SindarinDebuggerSwarm class >> debugSwarm: aBlock [
+SindarinDebuggerSwarm class >> debug: aBlock [
 	
 	| instance |
 	SessionService registerNewSession.
 	
 	instance := self new debug: aBlock.
+	
 	instance recordStep: true.
 	^ instance
 ]

@@ -48,3 +48,11 @@ SindarinDebuggerSwarm >> stepOver [
 	super stepOver.
 	self recordStep: true.
 ]
+
+{ #category : #'stepping - steps' }
+SindarinDebuggerSwarm >> stepThrough [ 
+	self recordStep ifTrue: [ SessionService registerStepInto: self context].
+	"TODO: needs to be created the StepThrough concept on Swarm model."
+	"TODO: StepThrough doesn't work well even in isolated Sindarin."
+	super stepThrough.
+]

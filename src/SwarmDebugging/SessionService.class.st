@@ -152,35 +152,22 @@ SessionService class >> processStep: context stepName: stepName [
 { #category : #public }
 SessionService class >> processStepContext: context [
 
-	| typeWord sourceCodeStream lineOfCode lineCounter lineNumber lineStart lineStop |
+	| typeWord sourceCodeStream lineOfCode lineNumber lineStart lineStop lineOfCodeNode |
 	
 	typeWord := context methodClass asString.
 	((typeWord indexOfSubCollection: ' class') asNumber > 1) ifTrue: [
 			typeWord := typeWord copyFrom: 1 to: (typeWord indexOfSubCollection: ' class') - 1
 		].
 	
-	sourceCodeStream := (String new: 1000) writeStream.
-	context methodSelector asString = 'DoIt' 
-		ifTrue: [ sourceCodeStream := context sourceCode asString. ]
-		ifFalse: [ 
-			(Smalltalk at: typeWord asSymbol) fileOutOn: sourceCodeStream. 
-			"UndefinedObject on transcript is because fileOutOn: - review later."
-		].
+	sourceCodeStream := context sourceCode asString.
 
-	lineOfCode := (context method sourceNodeForPC: context pc).
-	lineStart := lineOfCode start.
-	lineStop := lineOfCode stop.	
-	lineOfCode := ( lineOfCode source copyFrom: lineStart to: lineStop ) asString.
+	lineOfCodeNode := (context method sourceNodeForPC: context pc).
 	
-	lineNumber := 0.
-	lineCounter := 0.
-	sourceCodeStream contents lines do: [ 
-		:line |
-			lineCounter := lineCounter + 1. 
-			(line indexOfSubCollection: lineOfCode) > 0 ifTrue: [ 
-				lineNumber := lineCounter.
-			] 
-		].	
+	lineStart := lineOfCodeNode start.
+	lineStop := lineOfCodeNode stop.	
+	lineOfCode := ( lineOfCodeNode source copyFrom: lineStart to: lineStop ) asString.
+	
+	lineNumber := (lineOfCodeNode source copyFrom: 1 to: lineStart ) asString lineCount.
 
 	^ContextProperty getInstance
 		methodName: context methodSelector asString;

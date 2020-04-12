@@ -63,18 +63,7 @@ SessionData >> events: value [
 
 { #category : #accessing }
 SessionData >> finished: value [
-
-	|d s|
-	d := value.
-	s := d month asString, '/', 
-	d dayOfMonth asString, '/', 
-	d year asString, ' ', 
-	d hour24 asString, ':', 
-	d minute asString, ':', 
-	d second asString, '.',
-	d nanoSecond asString.
-
-	finished := s.
+	finished := value
 ]
 
 { #category : #accessing }
@@ -99,18 +88,7 @@ SessionData >> projectName: value [
 
 { #category : #accessing }
 SessionData >> started: value [
-
-	|d s|
-	d := value.
-	s := d month asString, '/',
-	d dayOfMonth asString, '/', 
-	d year asString, ' ', 
-	d hour24 asString, ':', 
-	d minute asString, ':', 
-	d second asString, '.',
-	d nanoSecond asString.
-
-	started := s.
+	started := value
 ]
 
 { #category : #accessing }

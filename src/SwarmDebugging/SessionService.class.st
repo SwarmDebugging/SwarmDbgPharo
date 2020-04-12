@@ -13,7 +13,7 @@ SessionService class >> endCurrentSession [
 
 	currentSession ifNil: [ ^self ].
 
-	currentSession finished: DateAndTime now.
+	currentSession finished: DateAndTimeSwarm now.
 
 	Repository save: currentSession.
 	
@@ -56,7 +56,7 @@ SessionService class >> processCodeFile: contextProperty [
 		id: UUID new printString;
 		path: codeFilePath;
 		content: (ZnBase64Encoder new encode: (contextProperty sourceCode) asByteArray);
-		created: DateAndTime now.
+		created: DateAndTimeSwarm now.
 	
 	alreadyExist := false.
 	currentSession codeFiles do: [ 
@@ -100,10 +100,8 @@ SessionService class >> processEvent: contextProperty [
 		codeFilePath: contextProperty filePath;
 		lineNumber: contextProperty lineNumber;
 		lineOfCode: contextProperty lineOfCode;
-		created: DateAndTime now.
+		created: DateAndTimeSwarm now.
 	currentSession events add: event.
-	
-	Repository save: currentSession.
 	
 	^event_id.
 	
@@ -140,7 +138,7 @@ SessionService class >> processStep: context stepName: stepName [
 		returnType: 'void';
 		parameters: OrderedCollection new;
 		event_Id: event_id;
-		created: DateAndTime now.
+		created: DateAndTimeSwarm now.
 	currentSession pathNodes add: pathNode.	
 	
 	
@@ -230,7 +228,7 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 			lineNumber: contextProperty lineNumber;
 			lineOfCode: contextProperty lineOfCode;
 			origin: 'AddedBeforeDebug';
-			created: DateAndTime now.			
+			created: DateAndTimeSwarm now.			
 			
 		self processEvent: contextProperty.
 			
@@ -291,7 +289,7 @@ SessionService class >> registerBreakpoint: nodeContext [
 		lineNumber: contextProperty lineNumber;
 		lineOfCode: contextProperty lineOfCode;
 		origin: 'AddedDuringDebug';
-		created: DateAndTime now.
+		created: DateAndTimeSwarm now.
 	
 	alreadyExist := false.
 	currentSession breakpoints do: [
@@ -331,7 +329,7 @@ SessionService class >> registerNewSession [
 		SessionData new 
 			id: UUID new printString; 
 			description: 'Swarm on Pharo';			
-			started: DateAndTime now;
+			started: DateAndTimeSwarm now;
 			developerName: swarmWindowData developerName;
 			taskName: swarmWindowData taskName;
 			taskAction: swarmWindowData taskAction;
@@ -351,13 +349,18 @@ SessionService class >> registerNewSession [
 
 { #category : #public }
 SessionService class >> registerStepInto: context [	
+	
 	self processStep: context stepName: 'StepInto'.
+	
+	(Delay forMilliseconds: 100) wait.
 ]
 
 { #category : #public }
 SessionService class >> registerStepOver: context [
 
 	self processStep: context stepName: 'StepOver'.
+	
+	(Delay forMilliseconds: 100) wait.
 	
 
 ]

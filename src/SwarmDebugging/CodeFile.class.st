@@ -17,18 +17,7 @@ CodeFile >> content: value [
 
 { #category : #accessing }
 CodeFile >> created: value [
-
-	|d s|
-	d := value.
-	s := d month asString, '/',
-	d dayOfMonth asString, '/', 
-	d year asString, ' ', 
-	d hour24 asString, ':', 
-	d minute asString, ':', 
-	d second asString, '.',
-	d nanoSecond asString.
-
-	created := s
+	created := value
 ]
 
 { #category : #accessing }

@@ -23,6 +23,7 @@ SindarinDebuggerSwarm class >> debug: aBlock [
 SindarinDebuggerSwarm >> initialize [
 	recordStep := false.
 	super initialize.
+	self addStepHook: [ (self message: #break to: Break) ifTrue: [ self skip ] ].
 ]
 
 { #category : #accessing }

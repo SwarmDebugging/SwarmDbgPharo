@@ -6,20 +6,26 @@ Class {
 
 { #category : #'instance creation' }
 DateAndTimeSwarm class >> now [ 
-	| d s n |
+	"The Swarm database expects timestamps to be strings with this format: MM/DD/YYYY HH:mm:ss:nnnnnnnnn
+	n = nanosecond"
+	| d s |
 	
 	d := super now.
-	n := d nanoSecond asString padLeftTo: 9 with: $0.
-
-	s := d month asString, '/',
-	d dayOfMonth asString, '/', 
-	d year asString, ' ', 
-	d hour24 asString, ':', 
-	d minute asString, ':', 
-	d second asString, '.',
-	n asString.	
+	s := ReadWriteStream on: (String new).
 	
-	Transcript show: d; cr; show: s; cr.
+	s nextPutAll: (d month printPaddedWith: $0 to: 2);
+	nextPutAll: '/';
+	nextPutAll: (d dayOfMonth printPaddedWith: $0 to: 2);
+	nextPutAll: '/';
+	nextPutAll: (d year printPaddedWith: $0 to: 4);
+	nextPutAll: ' ';
+	nextPutAll: (d hour24 printPaddedWith: $0 to: 2);
+	nextPutAll: ':';
+	nextPutAll: (d minute printPaddedWith: $0 to: 2);
+	nextPutAll: ':';
+	nextPutAll: (d second printPaddedWith: $0 to: 2);
+	nextPutAll: '.';
+	nextPutAll: (d nanoSecond printPaddedWith: $0 to: 9).
 	
-	^s.
+	^ s contents.
 ]

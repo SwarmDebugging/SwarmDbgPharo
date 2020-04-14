@@ -188,24 +188,17 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 	Breakpoint all do: [
 		:breakpointItem | 
 		
-		| contextProperty breakpointData sourceCodeStream lineOfCode lineCounter lineNumber |
+		| contextProperty breakpointData sourceCodeStream lineOfCode lineNumber lineStart lineStop |
 		
-		sourceCodeStream := (String new: 1000) writeStream.
-		(Smalltalk at: breakpointItem node methodNode methodClass asString asSymbol) fileOutOn: sourceCodeStream.
-	
-		lineOfCode := breakpointItem node methodNode source copyFrom: breakpointItem node start to: breakpointItem node stop.
-		breakpointItem node class asString = 'RBMethodNode' 
-			ifTrue: [ lineOfCode := breakpointItem node methodNode selector asString ].
-		
-		lineCounter := 0.
-		sourceCodeStream contents lines do: [ 
-			:line |
-				lineCounter := lineCounter + 1. 
-				(line indexOfSubCollection: lineOfCode) > 0 ifTrue: [ 
-					lineNumber := lineCounter.
-				] 
-			].
-		
+		sourceCodeStream := breakpointItem node methodNode sourceCode asString.
+			
+		lineStart := breakpointItem node start.
+		lineStop := breakpointItem node stop.
+
+		lineOfCode := (breakpointItem node methodNode source copyFrom: lineStart to: lineStop) asString.
+
+		lineNumber := (breakpointItem node methodNode source copyFrom: 1 to: lineStart) asString lineCount.
+
 		contextProperty := ContextProperty getInstance
 			stepName: 'BreakpointAdd';
 			methodName: breakpointItem node methodNode selector asString;
@@ -214,8 +207,8 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 			sourceCode: sourceCodeStream contents; 
 			lineOfCode: lineOfCode;
 			lineNumber: lineNumber;
-			charStart: breakpointItem node start;
-			charEnd: breakpointItem node stop.
+			charStart: lineStart;
+			charEnd: lineStop.
 		
 		contextProperty filePath: (self processCodeFile: contextProperty).
 		

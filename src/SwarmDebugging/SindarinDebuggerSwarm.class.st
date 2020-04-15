@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'recordStep'
 	],
-	#category : #'SwarmDebugging-SindarinInterface'
+	#category : #'SwarmDebugging-Interface-Sindarin'
 }
 
 { #category : #'as yet unclassified' }

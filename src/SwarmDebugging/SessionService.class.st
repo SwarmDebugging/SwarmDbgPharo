@@ -5,7 +5,7 @@ Class {
 		'currentSession',
 		'swarmWindowData'
 	],
-	#category : #'SwarmDebugging-Service'
+	#category : #'SwarmDebugging-SwarmDomain'
 }
 
 { #category : #public }

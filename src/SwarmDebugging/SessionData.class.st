@@ -18,7 +18,7 @@ Class {
 		'events',
 		'pathNodes'
 	],
-	#category : #'SwarmDebugging-Service-DataModel'
+	#category : #'SwarmDebugging-Repository-DataModel'
 }
 
 { #category : #accessing }

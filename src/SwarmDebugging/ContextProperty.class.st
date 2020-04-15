@@ -13,7 +13,7 @@ Class {
 		'stepName',
 		'filePath'
 	],
-	#category : #'SwarmDebugging-DataModel'
+	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
 { #category : #'instance creation' }

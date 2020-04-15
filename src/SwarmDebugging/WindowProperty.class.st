@@ -9,7 +9,7 @@ Class {
 		'taskDescription',
 		'taskCreated'
 	],
-	#category : #'SwarmDebugging-DataModel'
+	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
 { #category : #accessing }

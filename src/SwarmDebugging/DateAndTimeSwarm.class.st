@@ -1,7 +1,7 @@
 Class {
 	#name : #DateAndTimeSwarm,
 	#superclass : #DateAndTime,
-	#category : #'SwarmDebugging-DataModel'
+	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
 { #category : #'instance creation' }

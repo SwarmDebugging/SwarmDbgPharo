@@ -18,7 +18,7 @@ Class {
 
 { #category : #'instance creation' }
 ContextProperty class >> getInstance [ 
-	^ContextProperty new 
+	^self new 
 	methodName: 'NotDefined';
 	className: 'NotDefined';
 	packageName: 'NotDefined';

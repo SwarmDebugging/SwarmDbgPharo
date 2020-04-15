@@ -18,7 +18,7 @@ Class {
 		'textTaskDescription',
 		'buttonSave'
 	],
-	#category : #'SwarmDebugging-Window'
+	#category : #'SwarmDebugging-WindowInterface'
 }
 
 { #category : #specs }

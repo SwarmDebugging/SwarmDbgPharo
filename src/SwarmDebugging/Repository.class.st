@@ -1,7 +1,7 @@
 Class {
 	#name : #Repository,
 	#superclass : #Object,
-	#category : #'SwarmDebugging-DataLog'
+	#category : #'SwarmDebugging-Repository'
 }
 
 { #category : #action }

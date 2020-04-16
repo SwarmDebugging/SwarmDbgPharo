@@ -7,27 +7,10 @@ Class {
 { #category : #accessing }
 ProcessorOfBreakpoint >> process: aBreakpointNode [
 
-	| contextProperty breakpointData sourceCodeStream lineOfCode lineNumber lineStart lineStop |
+	| contextProperty breakpointData |
 		
-	sourceCodeStream := aBreakpointNode methodNode sourceCode asString.
-			
-	lineStart := aBreakpointNode start.
-	lineStop := aBreakpointNode stop.
-
-	lineOfCode := (aBreakpointNode methodNode source copyFrom: lineStart to: lineStop) asString.
-
-	lineNumber := (aBreakpointNode methodNode source copyFrom: 1 to: lineStart) asString lineCount.
-
-	contextProperty := ContextProperty getInstance
-		stepName: 'BreakpointAdd';
-		methodName: aBreakpointNode methodNode selector asString;
-		className: aBreakpointNode methodNode methodClass asString;
-		packageName: (SessionService getNamespace: aBreakpointNode methodNode methodClass asString);
-		sourceCode: sourceCodeStream contents; 
-		lineOfCode: lineOfCode;
-		lineNumber: lineNumber;
-		charStart: lineStart;
-		charEnd: lineStop.
+	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
+	contextProperty stepName: 'BreakpointAdd'.
 		
 	contextProperty filePath: (SessionService processCodeFile: contextProperty).
 	

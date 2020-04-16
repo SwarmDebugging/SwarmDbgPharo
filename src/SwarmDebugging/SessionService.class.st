@@ -151,50 +151,7 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 
 	currentSession ifNil: [ ^self ].
 	
-	Breakpoint all do: [
-		:breakpointItem | 
-		
-		| contextProperty breakpointData sourceCodeStream lineOfCode lineNumber lineStart lineStop |
-		
-		sourceCodeStream := breakpointItem node methodNode sourceCode asString.
-			
-		lineStart := breakpointItem node start.
-		lineStop := breakpointItem node stop.
-
-		lineOfCode := (breakpointItem node methodNode source copyFrom: lineStart to: lineStop) asString.
-
-		lineNumber := (breakpointItem node methodNode source copyFrom: 1 to: lineStart) asString lineCount.
-
-		contextProperty := ContextProperty getInstance
-			stepName: 'BreakpointAdd';
-			methodName: breakpointItem node methodNode selector asString;
-			className: breakpointItem node methodNode methodClass asString;
-			packageName: (self getNamespace: breakpointItem node methodNode methodClass asString);
-			sourceCode: sourceCodeStream contents; 
-			lineOfCode: lineOfCode;
-			lineNumber: lineNumber;
-			charStart: lineStart;
-			charEnd: lineStop.
-		
-		contextProperty filePath: (self processCodeFile: contextProperty).
-		
-		breakpointData := BreakpointData new 
-			id: UUID new printString;
-			breakpointKind: 'Line';
-			namespace: contextProperty packageName;
-			type: contextProperty className;
-			codeFilePath: contextProperty filePath;
-			lineNumber: contextProperty lineNumber;
-			lineOfCode: contextProperty lineOfCode;
-			origin: 'AddedBeforeDebug';
-			created: DateAndTimeSwarm now.			
-			
-		self processEvent: contextProperty.
-			
-		currentSession breakpoints add: breakpointData. 
-			
-		Repository save: currentSession.
-	].
+	Breakpoint all do: [ :breakpointItem | ProcessorOfBreakpoint new process: breakpointItem node ].
 
 ]
 

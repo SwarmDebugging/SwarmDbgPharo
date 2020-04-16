@@ -75,7 +75,7 @@ ContextProperty >> event_id: value [
 { #category : #process }
 ContextProperty >> extract: aContext [
 	
-	| typeWord lineOfCodeNode |
+	| typeWord namespaceWord lineOfCodeNode |
 	
 	typeWord := aContext methodClass asString.
 	((typeWord indexOfSubCollection: ' class') asNumber > 1) ifTrue: [
@@ -83,8 +83,12 @@ ContextProperty >> extract: aContext [
 		].
 
 	lineOfCodeNode := (aContext method sourceNodeForPC: aContext pc).
+
+	[ namespaceWord := (Smalltalk at: typeWord asSymbol) package name  ] 
+		on: Exception
+		do: [ namespaceWord := 'NamespaceNotFound' ].
 	
-	self packageName: (SessionService getNamespace: typeWord).
+	self packageName: namespaceWord.
 	self className: typeWord.
 	self methodName: aContext methodSelector asString.
 	self sourceCode: (aContext sourceCode asString) contents.

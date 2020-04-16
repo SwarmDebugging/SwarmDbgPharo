@@ -21,6 +21,11 @@ SessionService class >> endCurrentSession [
 	
 ]
 
+{ #category : #public }
+SessionService class >> getCurrentSession [
+	^currentSession
+]
+
 { #category : #internal }
 SessionService class >> getNamespace: typeWord [
 
@@ -343,7 +348,11 @@ SessionService class >> registerNewSession [
 { #category : #public }
 SessionService class >> registerStepInto: context [	
 	
-	self processStep: context stepName: 'StepInto'.
+	"self processStep: context stepName: 'StepInto'."
+	
+	self getCurrentSession ifNil: [ ^self ].
+	
+	ProcessorOfStepInto new process: context.
 	
 	(Delay forMilliseconds: 100) wait.
 ]

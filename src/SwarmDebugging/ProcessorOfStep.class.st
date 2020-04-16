@@ -12,7 +12,7 @@ ProcessorOfStep >> process: aContext [
 
 	| contextProperty |
 
-	contextProperty := ContextProperty new extract: aContext.
+	contextProperty := ContextPropertyStep new extract: aContext.
 	contextProperty stepName: self stepName.
 
 	self processCodeFile: contextProperty.

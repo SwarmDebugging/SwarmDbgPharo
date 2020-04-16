@@ -10,7 +10,7 @@ Class {
 { #category : #process }
 ProcessorOfStep >> process: aContext [
 
-	| pathNode contextProperty |
+	| contextProperty |
 
 	contextProperty := ContextProperty new extract: aContext.
 	contextProperty stepName: self stepName.
@@ -19,24 +19,7 @@ ProcessorOfStep >> process: aContext [
 	
 	self processEvent: contextProperty.
 	
-	"PathNode"
-	pathNode := PathNode new 
-		id: UUID new printString;
-		hash: '';
-		namespace: contextProperty packageName;
-		type: contextProperty className;
-		method: contextProperty methodName;
-		parent: nil;
-		parent_Id: (SessionService getCurrentSession pathNodes isEmpty 
-			ifTrue: [ '00000000-0000-0000-0000-000000000000' ] 
-			ifFalse: [ SessionService getCurrentSession pathNodes last id ]);
-		origin: self stepName;
-		returnType: 'void';
-		parameters: OrderedCollection new;
-		event_Id: contextProperty event_id;
-		created: DateAndTimeSwarm now.
-		
-	SessionService getCurrentSession pathNodes add: pathNode.	
+	self processPathNode: contextProperty.
 	
 	Repository save: SessionService getCurrentSession.
 ]
@@ -92,6 +75,31 @@ ProcessorOfStep >> processEvent: aContextProperty [
 		
 	SessionService getCurrentSession events add: event.
 	
+]
+
+{ #category : #'as yet unclassified' }
+ProcessorOfStep >> processPathNode: aContextProperty [ 
+
+	| pathNode |
+
+	pathNode := PathNode new 
+		id: UUID new printString;
+		hash: '';
+		namespace: aContextProperty packageName;
+		type: aContextProperty className;
+		method: aContextProperty methodName;
+		parent: nil;
+		parent_Id: (SessionService getCurrentSession pathNodes isEmpty 
+			ifTrue: [ '00000000-0000-0000-0000-000000000000' ] 
+			ifFalse: [ SessionService getCurrentSession pathNodes last id ]);
+		origin: aContextProperty stepName;
+		returnType: 'void';
+		parameters: OrderedCollection new;
+		event_Id: aContextProperty event_id;
+		created: DateAndTimeSwarm now.
+		
+	SessionService getCurrentSession pathNodes add: pathNode.	
+
 ]
 
 { #category : #accessing }

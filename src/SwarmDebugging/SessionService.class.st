@@ -114,45 +114,6 @@ SessionService class >> processEvent: contextProperty [
 ]
 
 { #category : #public }
-SessionService class >> processStep: context stepName: stepName [
-
-	| event_id pathNode contextProperty |
-
-	currentSession ifNil: [ ^self ].
-
-	contextProperty	:= self processStepContext: context.
-
-	contextProperty filePath: (self processCodeFile: contextProperty).
-	
-	contextProperty stepName: stepName.
-
-	event_id := self processEvent: contextProperty.
-	
-	"PathNode"
-	pathNode := PathNode new 
-		id: UUID new printString;
-		hash: '';
-		namespace: contextProperty packageName;
-		type: contextProperty className;
-		method: contextProperty methodName;
-		parent: nil;
-		parent_Id: (currentSession pathNodes isEmpty 
-			ifTrue: [ '00000000-0000-0000-0000-000000000000' ] 
-			ifFalse: [ currentSession pathNodes last id ]);
-		origin: stepName;
-		returnType: 'void';
-		parameters: OrderedCollection new;
-		event_Id: event_id;
-		created: DateAndTimeSwarm now.
-	currentSession pathNodes add: pathNode.	
-	
-	
-	Repository save: currentSession.
-	
-
-]
-
-{ #category : #public }
 SessionService class >> processStepContext: context [
 
 	| typeWord sourceCodeStream lineOfCode lineNumber lineStart lineStop lineOfCodeNode |
@@ -346,9 +307,7 @@ SessionService class >> registerNewSession [
 ]
 
 { #category : #public }
-SessionService class >> registerStepInto: context [	
-	
-	"self processStep: context stepName: 'StepInto'."
+SessionService class >> registerStepInto: context [
 	
 	self getCurrentSession ifNil: [ ^self ].
 	
@@ -359,8 +318,10 @@ SessionService class >> registerStepInto: context [
 
 { #category : #public }
 SessionService class >> registerStepOver: context [
-
-	self processStep: context stepName: 'StepOver'.
+	
+	self getCurrentSession ifNil: [ ^self ].
+	
+	ProcessorOfStepOver new process: context.
 	
 	(Delay forMilliseconds: 100) wait.
 	

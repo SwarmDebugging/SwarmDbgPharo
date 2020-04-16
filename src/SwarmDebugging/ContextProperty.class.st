@@ -31,32 +31,32 @@ ContextProperty class >> getInstance [
 "Needs too be removed later."
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> charEnd [
 	^charEnd
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> charEnd: value [
 	charEnd := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> charStart [
 	^charStart
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> charStart: value [
 	charStart := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> className [
 	^className
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> className: value [
 	className := value
 ]
@@ -86,12 +86,12 @@ ContextProperty >> extract: aContext [
 		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> filePath [
 	^filePath
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> filePath: value [
 	filePath := value
 ]
@@ -108,62 +108,62 @@ ContextProperty >> initialize [
 	self charEnd: 0.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> lineNumber [
 	^lineNumber
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> lineNumber: value [
 	lineNumber := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> lineOfCode [
 	^lineOfCode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> lineOfCode: value [
 	lineOfCode := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> methodName [
 	^methodName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> methodName: value [
 	methodName := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> packageName [
 	^packageName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> packageName: value [
 	packageName := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> sourceCode [
 	^sourceCode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> sourceCode: value [
 	sourceCode := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> stepName [
 	^stepName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ContextProperty >> stepName: value [
 	stepName := value
 ]

@@ -10,15 +10,14 @@ Class {
 { #category : #process }
 ProcessorOfStep >> process: aContext [
 
-	| event_id pathNode contextProperty |
+	| pathNode contextProperty |
 
 	contextProperty := ContextProperty new extract: aContext.
-
-	contextProperty filePath: (SessionService processCodeFile: contextProperty).
-	
 	contextProperty stepName: self stepName.
 
-	event_id := SessionService processEvent: contextProperty.
+	self processCodeFile: contextProperty.
+	
+	self processEvent: contextProperty.
 	
 	"PathNode"
 	pathNode := PathNode new 
@@ -34,7 +33,7 @@ ProcessorOfStep >> process: aContext [
 		origin: self stepName;
 		returnType: 'void';
 		parameters: OrderedCollection new;
-		event_Id: event_id;
+		event_Id: contextProperty event_id;
 		created: DateAndTimeSwarm now.
 		
 	SessionService getCurrentSession pathNodes add: pathNode.	
@@ -65,6 +64,34 @@ ProcessorOfStep >> processCodeFile: aContextProperty [
 	alreadyExist ifFalse: [ 
 			SessionService getCurrentSession codeFiles add: codeFile. 
 		 ].
+]
+
+{ #category : #process }
+ProcessorOfStep >> processEvent: aContextProperty [
+
+	| event |
+
+	aContextProperty event_id: UUID new printString.
+
+	event := Event new
+		id: aContextProperty event_id; 
+		eventKind: aContextProperty stepName;
+		detail: 'TODO';
+		namespace: aContextProperty packageName;
+		type: aContextProperty className;
+		typeFullPath: 'TODO';
+		method: aContextProperty methodName;
+		methodKey: '';
+		methodSignature: '';
+		charStart: aContextProperty charStart;
+		charEnd: aContextProperty charEnd;
+		codeFilePath: aContextProperty filePath;
+		lineNumber: aContextProperty lineNumber;
+		lineOfCode: aContextProperty lineOfCode;
+		created: DateAndTimeSwarm now.
+		
+	SessionService getCurrentSession events add: event.
+	
 ]
 
 { #category : #accessing }

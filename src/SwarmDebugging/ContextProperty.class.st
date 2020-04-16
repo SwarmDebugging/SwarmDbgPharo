@@ -11,7 +11,8 @@ Class {
 		'charStart',
 		'charEnd',
 		'stepName',
-		'filePath'
+		'filePath',
+		'event_id'
 	],
 	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
@@ -59,6 +60,16 @@ ContextProperty >> className [
 { #category : #accessing }
 ContextProperty >> className: value [
 	className := value
+]
+
+{ #category : #accessing }
+ContextProperty >> event_id [
+	^event_id
+]
+
+{ #category : #accessing }
+ContextProperty >> event_id: value [
+	event_id := value
 ]
 
 { #category : #process }

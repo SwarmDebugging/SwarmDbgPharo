@@ -46,17 +46,17 @@ ProcessorOfStep >> processCodeFile: aContextProperty [
 
 	| codeFile alreadyExist |
 
-	aContextProperty codeFilePath: (FileLocator imageDirectory / aContextProperty packageName / aContextProperty className, 'st') pathString.	
+	aContextProperty filePath: (FileLocator imageDirectory / aContextProperty packageName / aContextProperty className, 'st') pathString.	
 
 	codeFile := CodeFile new 
 		id: UUID new printString;
-		path: aContextProperty codeFilePath;
+		path: aContextProperty filePath;
 		content: (ZnBase64Encoder new encode: (aContextProperty sourceCode) asByteArray);
 		created: DateAndTimeSwarm now.
 	
 	alreadyExist := false.
 	SessionService getCurrentSession codeFiles do: [ 
-		:file | file path = (aContextProperty codeFilePath) ifTrue: [ 
+		:file | file path = (aContextProperty filePath) ifTrue: [ 
 			alreadyExist := true 
 			] 
 		].

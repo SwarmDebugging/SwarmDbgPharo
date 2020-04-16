@@ -114,39 +114,6 @@ SessionService class >> processEvent: contextProperty [
 ]
 
 { #category : #public }
-SessionService class >> processStepContext: context [
-
-	| typeWord sourceCodeStream lineOfCode lineNumber lineStart lineStop lineOfCodeNode |
-	
-	typeWord := context methodClass asString.
-	((typeWord indexOfSubCollection: ' class') asNumber > 1) ifTrue: [
-			typeWord := typeWord copyFrom: 1 to: (typeWord indexOfSubCollection: ' class') - 1
-		].
-	
-	sourceCodeStream := context sourceCode asString.
-
-	lineOfCodeNode := (context method sourceNodeForPC: context pc).
-	
-	lineStart := lineOfCodeNode start.
-	lineStop := lineOfCodeNode stop.	
-	lineOfCode := ( lineOfCodeNode source copyFrom: lineStart to: lineStop ) asString.
-	
-	lineNumber := (lineOfCodeNode source copyFrom: 1 to: lineStart ) asString lineCount.
-
-	^ContextProperty getInstance
-		methodName: context methodSelector asString;
-		className: typeWord;
-		packageName: (self getNamespace: typeWord);
-		sourceCode: sourceCodeStream contents;
-		lineOfCode: lineOfCode;
-		lineNumber: lineNumber;
-		charStart: lineStart;
-		charEnd: lineStop.
-		
-	
-]
-
-{ #category : #public }
 SessionService class >> registerAlreadyAddedBreakpoints [
 
 	currentSession ifNil: [ ^self ].

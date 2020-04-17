@@ -14,23 +14,17 @@ ProcessorOfBreakpointAdd >> initialize [
 { #category : #accessing }
 ProcessorOfBreakpointAdd >> process: aBreakpointNode [ 
 
-	| contextProperty |
+	| contextProperty breakpointData alreadyExist |
 		
 	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
 	contextProperty stepName: self stepName.
 		
 	self processCodeFile: contextProperty.
 	
-"	self processBreakpoint: contextProperty.		
-			
-	self processEvent: contextProperty.
-			
-	Repository save: SessionService getCurrentSession."
-	
-	"-------------------------"
-	
-"	alreadyExist := false.
-	currentSession breakpoints do: [
+	breakpointData := self processBreakpoint: contextProperty.
+		
+	alreadyExist := false.
+	SessionService getCurrentSession breakpoints do: [
 		:breakpointItem | 
 			(breakpointItem codeFilePath = breakpointData codeFilePath) &
 			(breakpointItem lineNumber = breakpointData lineNumber)
@@ -38,11 +32,13 @@ ProcessorOfBreakpointAdd >> process: aBreakpointNode [
 				alreadyExist := true 
 			] 
 		].
-	
+
 	alreadyExist ifFalse: [ 
 			self processEvent: contextProperty.
-			currentSession breakpoints add: breakpointData. 
 			
-			Repository save: currentSession.
-		 ]."
+			SessionService getCurrentSession breakpoints add: breakpointData. 
+			
+			Repository save: SessionService getCurrentSession.
+		].
+
 ]

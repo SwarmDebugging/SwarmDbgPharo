@@ -31,9 +31,7 @@ ProcessorOfBreakpoint >> origin: value [
 { #category : #'as yet unclassified' }
 ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [ 
 
-	| breakpointData |
-
-	breakpointData := BreakpointData new 
+	^BreakpointData new 
 		id: UUID new printString;
 		breakpointKind: self kind;
 		namespace: aContextProperty packageName;
@@ -44,5 +42,5 @@ ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [
 		origin: self origin;
 		created: DateAndTimeSwarm now.	
 		
-	SessionService getCurrentSession breakpoints add: breakpointData. 
+
 ]

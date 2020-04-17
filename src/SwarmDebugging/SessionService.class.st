@@ -26,91 +26,9 @@ SessionService class >> getCurrentSession [
 	^currentSession
 ]
 
-{ #category : #internal }
-SessionService class >> getNamespace: typeWord [
-
-	|namespaceWord stringContext| 
-	
-	typeWord 
-		ifNil: [ stringContext := 'NamespaceNotFound' ]
-		ifNotNil: [ stringContext := typeWord ].
-
-	[ namespaceWord := (Smalltalk at: stringContext asSymbol) package name  ] 
-		on: Exception
-		do: [ namespaceWord := 'NamespaceNotFound' ].
-	
-	^namespaceWord 
-]
-
 { #category : #public }
 SessionService class >> getSwarmWindowData [
 	^swarmWindowData
-]
-
-{ #category : #processAndSend }
-SessionService class >> processCodeFile: contextProperty [
-
-	| codeFile codeFilePath alreadyExist |
-
-	currentSession ifNil: [ ^self ].
-
-	codeFilePath := (FileLocator imageDirectory / contextProperty packageName / contextProperty className, 'st') pathString.	
-
-	"CodeFile"
-	codeFile := CodeFile new 
-		id: UUID new printString;
-		path: codeFilePath;
-		content: (ZnBase64Encoder new encode: (contextProperty sourceCode) asByteArray);
-		created: DateAndTimeSwarm now.
-	
-	alreadyExist := false.
-	currentSession codeFiles do: [ 
-		:file | file path = codeFilePath ifTrue: [ 
-			alreadyExist := true 
-			] 
-		].
-	
-	alreadyExist ifFalse: [ 
-			currentSession codeFiles add: codeFile. 
-			Repository save: currentSession.		
-		 ].
-	
-	^codeFilePath
-	
-
-]
-
-{ #category : #public }
-SessionService class >> processEvent: contextProperty [
-
-	| event event_id |
-
-	currentSession ifNil: [ ^self ].
-
-	event_id := UUID new printString.
-
-	"Event"
-	event := Event new
-		id: event_id; 
-		eventKind: contextProperty stepName;
-		detail: 'TODO';
-		namespace: contextProperty packageName;
-		type: contextProperty className;
-		typeFullPath: 'TODO';
-		method: contextProperty methodName;
-		methodKey: '';
-		methodSignature: '';
-		charStart: contextProperty charStart;
-		charEnd: contextProperty charEnd;
-		codeFilePath: contextProperty filePath;
-		lineNumber: contextProperty lineNumber;
-		lineOfCode: contextProperty lineOfCode;
-		created: DateAndTimeSwarm now.
-	currentSession events add: event.
-	
-	^event_id.
-	
-
 ]
 
 { #category : #public }

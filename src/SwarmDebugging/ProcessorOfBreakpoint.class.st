@@ -7,27 +7,35 @@ Class {
 { #category : #accessing }
 ProcessorOfBreakpoint >> process: aBreakpointNode [
 
-	| contextProperty breakpointData |
+	| contextProperty |
 		
 	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
 	contextProperty stepName: 'BreakpointAdd'.
 		
 	self processCodeFile: contextProperty.
 	
-	breakpointData := BreakpointData new 
-		id: UUID new printString;
-		breakpointKind: 'Line';
-		namespace: contextProperty packageName;
-		type: contextProperty className;
-		codeFilePath: contextProperty filePath;
-		lineNumber: contextProperty lineNumber;
-		lineOfCode: contextProperty lineOfCode;
-		origin: 'AddedBeforeDebug';
-		created: DateAndTimeSwarm now.			
+	self processBreakpoint: contextProperty.		
 			
 	SessionService processEvent: contextProperty.
 			
-	SessionService getCurrentSession breakpoints add: breakpointData. 
-			
 	Repository save: SessionService getCurrentSession.
+]
+
+{ #category : #'as yet unclassified' }
+ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [ 
+
+	| breakpointData |
+
+	breakpointData := BreakpointData new 
+		id: UUID new printString;
+		breakpointKind: 'Line';
+		namespace: aContextProperty packageName;
+		type: aContextProperty className;
+		codeFilePath: aContextProperty filePath;
+		lineNumber: aContextProperty lineNumber;
+		lineOfCode: aContextProperty lineOfCode;
+		origin: 'AddedBeforeDebug';
+		created: DateAndTimeSwarm now.	
+		
+	SessionService getCurrentSession breakpoints add: breakpointData. 
 ]

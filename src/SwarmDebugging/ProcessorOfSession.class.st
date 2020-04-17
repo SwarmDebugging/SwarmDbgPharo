@@ -32,6 +32,34 @@ ProcessorOfSession >> processCodeFile: aContextProperty [
 		 ].
 ]
 
+{ #category : #process }
+ProcessorOfSession >> processEvent: aContextProperty [
+
+	| event |
+
+	aContextProperty event_id: UUID new printString.
+
+	event := Event new
+		id: aContextProperty event_id; 
+		eventKind: aContextProperty stepName;
+		detail: 'TODO';
+		namespace: aContextProperty packageName;
+		type: aContextProperty className;
+		typeFullPath: 'TODO';
+		method: aContextProperty methodName;
+		methodKey: '';
+		methodSignature: '';
+		charStart: aContextProperty charStart;
+		charEnd: aContextProperty charEnd;
+		codeFilePath: aContextProperty filePath;
+		lineNumber: aContextProperty lineNumber;
+		lineOfCode: aContextProperty lineOfCode;
+		created: DateAndTimeSwarm now.
+		
+	SessionService getCurrentSession events add: event.
+	
+]
+
 { #category : #accessing }
 ProcessorOfSession >> stepName [
 	^stepName

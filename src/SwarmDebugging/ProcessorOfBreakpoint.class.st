@@ -16,7 +16,7 @@ ProcessorOfBreakpoint >> process: aBreakpointNode [
 	
 	self processBreakpoint: contextProperty.		
 			
-	SessionService processEvent: contextProperty.
+	self processEvent: contextProperty.
 			
 	Repository save: SessionService getCurrentSession.
 ]

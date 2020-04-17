@@ -1,9 +1,6 @@
 Class {
 	#name : #ProcessorOfStep,
-	#superclass : #Object,
-	#instVars : [
-		'stepName'
-	],
+	#superclass : #ProcessorOfSession,
 	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
@@ -22,31 +19,6 @@ ProcessorOfStep >> process: aContext [
 	self processPathNode: contextProperty.
 	
 	Repository save: SessionService getCurrentSession.
-]
-
-{ #category : #process }
-ProcessorOfStep >> processCodeFile: aContextProperty [
-
-	| codeFile alreadyExist |
-
-	aContextProperty filePath: (FileLocator imageDirectory / aContextProperty packageName / aContextProperty className, 'st') pathString.	
-
-	codeFile := CodeFile new 
-		id: UUID new printString;
-		path: aContextProperty filePath;
-		content: (ZnBase64Encoder new encode: (aContextProperty sourceCode) asByteArray);
-		created: DateAndTimeSwarm now.
-	
-	alreadyExist := false.
-	SessionService getCurrentSession codeFiles do: [ 
-		:file | file path = (aContextProperty filePath) ifTrue: [ 
-			alreadyExist := true 
-			] 
-		].
-	
-	alreadyExist ifFalse: [ 
-			SessionService getCurrentSession codeFiles add: codeFile. 
-		 ].
 ]
 
 { #category : #process }
@@ -100,14 +72,4 @@ ProcessorOfStep >> processPathNode: aContextProperty [
 		
 	SessionService getCurrentSession pathNodes add: pathNode.	
 
-]
-
-{ #category : #accessing }
-ProcessorOfStep >> stepName [
-	^stepName
-]
-
-{ #category : #accessing }
-ProcessorOfStep >> stepName: aName [
-	stepName := aName
 ]

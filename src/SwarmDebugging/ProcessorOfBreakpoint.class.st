@@ -1,6 +1,6 @@
 Class {
 	#name : #ProcessorOfBreakpoint,
-	#superclass : #Object,
+	#superclass : #ProcessorOfSession,
 	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
@@ -12,7 +12,7 @@ ProcessorOfBreakpoint >> process: aBreakpointNode [
 	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
 	contextProperty stepName: 'BreakpointAdd'.
 		
-	contextProperty filePath: (SessionService processCodeFile: contextProperty).
+	self processCodeFile: contextProperty.
 	
 	breakpointData := BreakpointData new 
 		id: UUID new printString;

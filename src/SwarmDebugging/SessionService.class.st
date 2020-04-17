@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#classInstVars : [
 		'currentSession',
-		'swarmWindowData'
+		'swarmWindowData',
+		'breakpointObserver'
 	],
 	#category : #'SwarmDebugging-SwarmCore-Service'
 }
@@ -16,6 +17,8 @@ SessionService class >> endCurrentSession [
 	currentSession finished: DateAndTimeSwarm now.
 
 	Repository save: currentSession.
+
+	Breakpoint unregisterObserver: breakpointObserver.
 	
 	self reset.
 	
@@ -85,6 +88,10 @@ SessionService class >> registerNewSession [
 	Repository save: currentSession.
 
 	self registerAlreadyAddedBreakpoints.
+	
+	breakpointObserver := BreakpointObserver new.
+	
+	Breakpoint registerObserver: breakpointObserver.
 ]
 
 { #category : #public }

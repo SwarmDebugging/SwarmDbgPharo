@@ -6,5 +6,8 @@ Class {
 
 { #category : #updating }
 BreakpointObserver >> update: aNotification [
-	aNotification inspect.
+
+	(aNotification class className = BreakpointActivationNotification className) ifTrue: [ SessionService registerBreakpointActive: aNotification breakpoint node. ].
+	(aNotification class className = BreakpointAddedNotification className) ifTrue: [ SessionService registerBreakpointAdd: aNotification breakpoint node. ].
+	(aNotification class className = BreakpointRemovedNotification className) ifTrue: [ SessionService registerBreakpointRemove: aNotification breakpoint node. ].
 ]

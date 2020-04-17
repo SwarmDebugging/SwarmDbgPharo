@@ -44,13 +44,37 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 ]
 
 { #category : #public }
-SessionService class >> registerBreakpoint: nodeContext [
+SessionService class >> registerBreakpointActive: nodeContext [
+
+	currentSession ifNil: [ ^self ].
+
+	nodeContext ifNil: [ ^self ].
+	
+"	ProcessorOfBreakpointAdd new process: nodeContext."
+	self inform: 'TODO'.
+
+]
+
+{ #category : #public }
+SessionService class >> registerBreakpointAdd: nodeContext [
 
 	currentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
 	
 	ProcessorOfBreakpointAdd new process: nodeContext.
+
+]
+
+{ #category : #public }
+SessionService class >> registerBreakpointRemove: nodeContext [
+
+	currentSession ifNil: [ ^self ].
+
+	nodeContext ifNil: [ ^self ].
+	
+"	ProcessorOfBreakpointAdd new process: nodeContext."
+	self inform: 'TODO'.
 
 ]
 

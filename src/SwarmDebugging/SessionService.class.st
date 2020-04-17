@@ -118,79 +118,18 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 
 	currentSession ifNil: [ ^self ].
 	
-	Breakpoint all do: [ :breakpointItem | ProcessorOfBreakpoint new process: breakpointItem node ].
+	Breakpoint all do: [ :breakpointItem | ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
 
 ]
 
 { #category : #public }
 SessionService class >> registerBreakpoint: nodeContext [
 
-	| contextProperty lineCounter lineOfCode lineNumber sourceCodeStream breakpointData alreadyExist |
-
 	currentSession ifNil: [ ^self ].
 
-	nodeContext isNil ifTrue: [ ^self ].
-
-	Transcript show: 'entrou no metodo'; cr.
-		
-	sourceCodeStream := (String new: 1000) writeStream.
-	(Smalltalk at: nodeContext methodNode methodClass asString asSymbol) fileOutOn: sourceCodeStream.
+	nodeContext ifNil: [ ^self ].
 	
-	lineOfCode := nodeContext methodNode source copyFrom: nodeContext start to: nodeContext stop.
-	nodeContext class asString = 'RBMethodNode' 
-	ifTrue: [ lineOfCode := nodeContext methodNode selector asString ].
-		
-	lineCounter := 0.
-	sourceCodeStream contents lines do: [ 
-		:line |
-			lineCounter := lineCounter + 1. 
-			(line indexOfSubCollection: lineOfCode) > 0 ifTrue: [ 
-				lineNumber := lineCounter.
-			] 
-		].
-		
-	contextProperty := ContextProperty getInstance
-		stepName: 'BreakpointAdd';
-		methodName: nodeContext methodNode selector asString;
-		className: nodeContext methodNode methodClass asString;
-		packageName: (self getNamespace: nodeContext methodNode methodClass asString);
-		sourceCode: sourceCodeStream contents; 
-		lineOfCode: lineOfCode;
-		lineNumber: lineNumber;
-		charStart: nodeContext start;
-		charEnd: nodeContext stop.
-		
-	contextProperty filePath: (self processCodeFile: contextProperty).
-
-	"Breakpoint"
-	breakpointData := BreakpointData new 
-		id: UUID new printString;
-		breakpointKind: contextProperty stepName;
-		namespace: contextProperty packageName;
-		type: contextProperty className;
-		codeFilePath: contextProperty filePath;
-		lineNumber: contextProperty lineNumber;
-		lineOfCode: contextProperty lineOfCode;
-		origin: 'AddedDuringDebug';
-		created: DateAndTimeSwarm now.
-	
-	alreadyExist := false.
-	currentSession breakpoints do: [
-		:breakpointItem | 
-			(breakpointItem codeFilePath = breakpointData codeFilePath) &
-			(breakpointItem lineNumber = breakpointData lineNumber)
-			ifTrue: [ 
-				alreadyExist := true 
-			] 
-		].
-	
-	alreadyExist ifFalse: [ 
-			self processEvent: contextProperty.
-			Transcript show: 'adicionou no array'; cr.
-			currentSession breakpoints add: breakpointData. 
-			
-			Repository save: currentSession.
-		 ].
+	ProcessorOfBreakpointAdd new process: nodeContext.
 
 ]
 

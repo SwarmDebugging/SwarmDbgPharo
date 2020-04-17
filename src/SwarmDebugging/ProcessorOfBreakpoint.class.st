@@ -1,24 +1,31 @@
 Class {
 	#name : #ProcessorOfBreakpoint,
 	#superclass : #ProcessorOfSession,
+	#instVars : [
+		'kind',
+		'origin'
+	],
 	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
 { #category : #accessing }
-ProcessorOfBreakpoint >> process: aBreakpointNode [
+ProcessorOfBreakpoint >> kind [
+	^kind
+]
 
-	| contextProperty |
-		
-	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
-	contextProperty stepName: 'BreakpointAdd'.
-		
-	self processCodeFile: contextProperty.
-	
-	self processBreakpoint: contextProperty.		
-			
-	self processEvent: contextProperty.
-			
-	Repository save: SessionService getCurrentSession.
+{ #category : #accessing }
+ProcessorOfBreakpoint >> kind: value [ 
+	kind := value
+]
+
+{ #category : #accessing }
+ProcessorOfBreakpoint >> origin [
+	^origin
+]
+
+{ #category : #accessing }
+ProcessorOfBreakpoint >> origin: value [ 
+	origin := value
 ]
 
 { #category : #'as yet unclassified' }
@@ -28,13 +35,13 @@ ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [
 
 	breakpointData := BreakpointData new 
 		id: UUID new printString;
-		breakpointKind: 'Line';
+		breakpointKind: self kind;
 		namespace: aContextProperty packageName;
 		type: aContextProperty className;
 		codeFilePath: aContextProperty filePath;
 		lineNumber: aContextProperty lineNumber;
 		lineOfCode: aContextProperty lineOfCode;
-		origin: 'AddedBeforeDebug';
+		origin: self origin;
 		created: DateAndTimeSwarm now.	
 		
 	SessionService getCurrentSession breakpoints add: breakpointData. 

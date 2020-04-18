@@ -73,8 +73,7 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 
 	nodeContext ifNil: [ ^self ].
 	
-"	ProcessorOfBreakpointAdd new process: nodeContext."
-	self inform: 'TODO remove'.
+	ProcessorOfBreakpointRemove new process: nodeContext.
 
 ]
 

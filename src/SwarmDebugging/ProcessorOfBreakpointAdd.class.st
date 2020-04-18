@@ -27,7 +27,8 @@ ProcessorOfBreakpointAdd >> process: aBreakpointNode [
 	SessionService getCurrentSession breakpoints do: [
 		:breakpointItem | 
 			(breakpointItem codeFilePath = breakpointData codeFilePath) &
-			(breakpointItem lineNumber = breakpointData lineNumber)
+			(breakpointItem lineNumber = breakpointData lineNumber) &
+			(breakpointItem lineOfCode = breakpointData lineOfCode)			
 			ifTrue: [ 
 				alreadyExist := true 
 			] 

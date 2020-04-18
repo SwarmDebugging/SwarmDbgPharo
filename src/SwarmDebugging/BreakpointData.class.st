@@ -56,6 +56,11 @@ BreakpointData >> lineNumber: value [
 ]
 
 { #category : #accessing }
+BreakpointData >> lineOfCode [
+	^lineOfCode
+]
+
+{ #category : #accessing }
 BreakpointData >> lineOfCode: value [
 	lineOfCode := value
 ]

@@ -12,9 +12,12 @@ BaselineOfSwarmDebugging >> baseline: spec [
 		do: [
 			spec
     			baseline: 'Sindarin'
-    			with: [ spec repository: 'github://dupriezt/ScriptableDebugger' ].			
+    			with: [ spec repository: 'github://dupriezt/ScriptableDebugger' ].
 			spec
 				package: 'SwarmDebugging'.
+			spec 
+				baseline: 'PharoReflectivityBreakpoints' 
+				with: [ spec repository: 'github://dupriezt/Pharo-ReflectivityBreakpoints' ].
 			spec
     			baseline: 'NeoJSON'
     			with: [ spec repository: 'github://svenvc/NeoJSON/repository' ].	 

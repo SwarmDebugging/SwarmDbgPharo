@@ -50,8 +50,7 @@ SessionService class >> registerBreakpointActive: nodeContext [
 
 	nodeContext ifNil: [ ^self ].
 	
-"	ProcessorOfBreakpointAdd new process: nodeContext."
-	self inform: 'TODO'.
+	ProcessorOfBreakpointActive new process: nodeContext.
 
 ]
 

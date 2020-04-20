@@ -34,12 +34,14 @@ ProcessorOfBreakpointAdd >> process: aBreakpointNode [
 			] 
 		].
 
-	alreadyExist ifFalse: [ 
-			self processEvent: contextProperty.
+	alreadyExist ifTrue: [ ^self. ].
+		 
+	self processEvent: contextProperty.
 			
-			SessionService getCurrentSession breakpoints add: breakpointData. 
+	SessionService getCurrentSession addBreakpoint: breakpointData. 
 			
-			Repository save: SessionService getCurrentSession.
-		].
+	Repository save: SessionService getCurrentSession.
+
+
 
 ]

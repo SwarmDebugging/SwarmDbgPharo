@@ -21,6 +21,11 @@ Class {
 	#category : #'SwarmDebugging-Repository-DataModel'
 }
 
+{ #category : #adding }
+SessionData >> addBreakpoint: aBreakpointData [
+	self breakpoints add: aBreakpointData
+]
+
 { #category : #accessing }
 SessionData >> breakpoints [
 	^breakpoints

@@ -66,6 +66,17 @@ SessionService class >> registerBreakpointAdd: nodeContext [
 ]
 
 { #category : #public }
+SessionService class >> registerBreakpointHit: nodeContext [
+
+	currentSession ifNil: [ ^self ].
+
+	nodeContext ifNil: [ ^self ].
+	
+	ProcessorOfBreakpointHit new process: nodeContext.
+
+]
+
+{ #category : #public }
 SessionService class >> registerBreakpointRemove: nodeContext [
 
 	currentSession ifNil: [ ^self ].

@@ -28,7 +28,7 @@ ProcessorOfBreakpoint >> origin: value [
 	origin := value
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #process }
 ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [ 
 
 	^BreakpointData new 
@@ -41,6 +41,5 @@ ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [
 		lineOfCode: aContextProperty lineOfCode;
 		origin: self origin;
 		created: DateAndTimeSwarm now.	
-		
 
 ]

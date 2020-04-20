@@ -26,6 +26,21 @@ SessionData >> addBreakpoint: aBreakpointData [
 	self breakpoints add: aBreakpointData
 ]
 
+{ #category : #adding }
+SessionData >> addCodeFile: aCodeFile [
+	self codeFiles add: aCodeFile
+]
+
+{ #category : #adding }
+SessionData >> addEvent: aEvent [
+	self events add: aEvent
+]
+
+{ #category : #adding }
+SessionData >> addPathNode: aPathNode [
+	self pathNodes add: aPathNode
+]
+
 { #category : #accessing }
 SessionData >> breakpoints [
 	^breakpoints

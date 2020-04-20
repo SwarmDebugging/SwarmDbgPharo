@@ -21,7 +21,7 @@ ProcessorOfStep >> process: aContext [
 	Repository save: SessionService getCurrentSession.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #process }
 ProcessorOfStep >> processPathNode: aContextProperty [ 
 
 	| pathNode |
@@ -42,6 +42,8 @@ ProcessorOfStep >> processPathNode: aContextProperty [
 		event_Id: aContextProperty event_id;
 		created: DateAndTimeSwarm now.
 		
-	SessionService getCurrentSession pathNodes add: pathNode.	
+	SessionService getCurrentSession addPathNode: pathNode.	
+		
+	^self.
 
 ]

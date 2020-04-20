@@ -27,9 +27,10 @@ ProcessorOfSession >> processCodeFile: aContextProperty [
 			] 
 		].
 	
-	alreadyExist ifFalse: [ 
-			SessionService getCurrentSession codeFiles add: codeFile. 
-		 ].
+	alreadyExist ifTrue: [ ^self ].
+
+	SessionService getCurrentSession addCodeFile: codeFile. 
+	
 ]
 
 { #category : #process }
@@ -56,7 +57,9 @@ ProcessorOfSession >> processEvent: aContextProperty [
 		lineOfCode: aContextProperty lineOfCode;
 		created: DateAndTimeSwarm now.
 		
-	SessionService getCurrentSession events add: event.
+	SessionService getCurrentSession addEvent: event.
+	
+	^self.
 	
 ]
 

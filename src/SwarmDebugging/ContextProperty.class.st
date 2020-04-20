@@ -17,21 +17,6 @@ Class {
 	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
-{ #category : #'instance creation' }
-ContextProperty class >> getInstance [ 
-	^self new 
-	methodName: 'NotDefined';
-	className: 'NotDefined';
-	packageName: 'NotDefined';
-	sourceCode: 'NotDefined';
-	lineOfCode: 'NotDefined';
-	lineNumber: 0;
-	charStart: 0;
-	charEnd: 0.
-	
-"Needs too be removed later."
-]
-
 { #category : #accessing }
 ContextProperty >> charEnd [
 	^charEnd

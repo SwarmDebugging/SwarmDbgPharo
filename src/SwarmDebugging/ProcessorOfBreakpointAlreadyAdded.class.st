@@ -21,7 +21,7 @@ ProcessorOfBreakpointAlreadyAdded >> process: aBreakpointNode [
 		
 	self processCodeFile: contextProperty.
 			
-	SessionService getCurrentSession breakpoints add: (self processBreakpoint: contextProperty). 			
+	SessionService getCurrentSession addBreakpoint: (self processBreakpoint: contextProperty). 			
 			
 	self processEvent: contextProperty.
 			

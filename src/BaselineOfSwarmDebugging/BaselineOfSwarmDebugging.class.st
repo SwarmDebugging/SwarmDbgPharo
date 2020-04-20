@@ -17,7 +17,7 @@ BaselineOfSwarmDebugging >> baseline: spec [
 				package: 'SwarmDebugging'.
 			spec 
 				baseline: 'PharoReflectivityBreakpoints' 
-				with: [ spec repository: 'github://dupriezt/Pharo-ReflectivityBreakpoints' ].
+				with: [ spec repository: 'github://StevenCostiou/Pharo-ReflectivityBreakpoints' ].
 			spec
     			baseline: 'NeoJSON'
     			with: [ spec repository: 'github://svenvc/NeoJSON/repository' ].	 

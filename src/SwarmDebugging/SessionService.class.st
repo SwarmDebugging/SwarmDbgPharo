@@ -41,11 +41,11 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 	
 	Breakpoint all do: [ :breakpointItem | 
 		(breakpointItem class className = FieldWatchpoint className) ifTrue: [ 
-				breakpointItem link nodes do: [ :node | ProcessorOfWatchpointAlreadyAdded new process: node. (Delay forMilliseconds: 100) wait. ] 
+				breakpointItem link nodes do: [ :node | ProcessorOfWatchpointAlreadyAdded new process: node. ActionSynchronizer wait. ] 
 			].
 		(breakpointItem class className = Breakpoint className) ifTrue: [ ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
 		
-		(Delay forMilliseconds: 100) wait.
+		ActionSynchronizer wait.
 	].
 
 ]
@@ -59,7 +59,7 @@ SessionService class >> registerBreakpointActive: nodeContext [
 	
 	ProcessorOfBreakpointActive new process: nodeContext.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 
 ]
 
@@ -72,7 +72,7 @@ SessionService class >> registerBreakpointAdd: nodeContext [
 	
 	ProcessorOfBreakpointAdd new process: nodeContext.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 
 ]
 
@@ -85,7 +85,7 @@ SessionService class >> registerBreakpointHit: nodeContext [
 	
 	ProcessorOfBreakpointHit new process: nodeContext.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 
 ]
 
@@ -98,7 +98,7 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 	
 	ProcessorOfBreakpointRemove new process: nodeContext.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 
 ]
 
@@ -149,7 +149,7 @@ SessionService class >> registerStepInto: context [
 	
 	ProcessorOfStepInto new process: context.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 ]
 
 { #category : #public }
@@ -159,7 +159,7 @@ SessionService class >> registerStepOver: context [
 	
 	ProcessorOfStepOver new process: context.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 	
 
 ]
@@ -173,7 +173,7 @@ SessionService class >> registerWatchpointAdd: nodeContext [
 	
 	ProcessorOfWatchpointAdd new process: nodeContext.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 
 ]
 
@@ -186,7 +186,7 @@ SessionService class >> registerWatchpointRemove: nodeContext [
 	
 	ProcessorOfWatchpointRemove new process: nodeContext.
 	
-	(Delay forMilliseconds: 100) wait.
+	ActionSynchronizer wait.
 
 ]
 

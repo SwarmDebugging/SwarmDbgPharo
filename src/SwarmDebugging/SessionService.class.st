@@ -42,6 +42,8 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 	Breakpoint all do: [ :breakpointItem | 
 		(breakpointItem class className = FieldWatchpoint className) ifTrue: [ self inform: 'TODO'. ].
 		(breakpointItem class className = Breakpoint className) ifTrue: [ ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
+		
+		(Delay forMilliseconds: 100) wait.
 	].
 
 ]
@@ -54,6 +56,8 @@ SessionService class >> registerBreakpointActive: nodeContext [
 	nodeContext ifNil: [ ^self ].
 	
 	ProcessorOfBreakpointActive new process: nodeContext.
+	
+	(Delay forMilliseconds: 100) wait.
 
 ]
 
@@ -65,6 +69,8 @@ SessionService class >> registerBreakpointAdd: nodeContext [
 	nodeContext ifNil: [ ^self ].
 	
 	ProcessorOfBreakpointAdd new process: nodeContext.
+	
+	(Delay forMilliseconds: 100) wait.
 
 ]
 
@@ -76,6 +82,8 @@ SessionService class >> registerBreakpointHit: nodeContext [
 	nodeContext ifNil: [ ^self ].
 	
 	ProcessorOfBreakpointHit new process: nodeContext.
+	
+	(Delay forMilliseconds: 100) wait.
 
 ]
 
@@ -87,6 +95,8 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 	nodeContext ifNil: [ ^self ].
 	
 	ProcessorOfBreakpointRemove new process: nodeContext.
+	
+	(Delay forMilliseconds: 100) wait.
 
 ]
 
@@ -160,6 +170,8 @@ SessionService class >> registerWatchpointAdd: nodeContext [
 	nodeContext ifNil: [ ^self ].
 	
 	ProcessorOfWatchpointAdd new process: nodeContext.
+	
+	(Delay forMilliseconds: 100) wait.
 
 ]
 
@@ -171,6 +183,8 @@ SessionService class >> registerWatchpointRemove: nodeContext [
 	nodeContext ifNil: [ ^self ].
 	
 	ProcessorOfWatchpointRemove new process: nodeContext.
+	
+	(Delay forMilliseconds: 100) wait.
 
 ]
 

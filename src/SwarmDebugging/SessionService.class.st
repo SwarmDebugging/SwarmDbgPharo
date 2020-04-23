@@ -40,7 +40,9 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 	currentSession ifNil: [ ^self ].
 	
 	Breakpoint all do: [ :breakpointItem | 
-		(breakpointItem class className = FieldWatchpoint className) ifTrue: [ self inform: 'TODO'. ].
+		(breakpointItem class className = FieldWatchpoint className) ifTrue: [ 
+				breakpointItem link nodes do: [ :node | ProcessorOfWatchpointAlreadyAdded new process: node. (Delay forMilliseconds: 100) wait. ] 
+			].
 		(breakpointItem class className = Breakpoint className) ifTrue: [ ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
 		
 		(Delay forMilliseconds: 100) wait.

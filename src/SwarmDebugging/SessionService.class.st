@@ -135,11 +135,11 @@ SessionService class >> registerNewSession [
 
 	Repository save: currentSession.
 
-	self registerAlreadyAddedBreakpoints.
-	
 	breakpointObserver := BreakpointObserver new.
-	
 	Breakpoint registerObserver: breakpointObserver.
+
+	self registerAlreadyAddedBreakpoints.
+
 ]
 
 { #category : #public }

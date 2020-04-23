@@ -163,6 +163,17 @@ SessionService class >> registerWatchpointAdd: nodeContext [
 
 ]
 
+{ #category : #public }
+SessionService class >> registerWatchpointRemove: nodeContext [
+
+	currentSession ifNil: [ ^self ].
+
+	nodeContext ifNil: [ ^self ].
+	
+	ProcessorOfWatchpointRemove new process: nodeContext.
+
+]
+
 { #category : #initialization }
 SessionService class >> reset [
 	<script: 'self reset'>

@@ -39,7 +39,10 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 
 	currentSession ifNil: [ ^self ].
 	
-	Breakpoint all do: [ :breakpointItem | ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
+	Breakpoint all do: [ :breakpointItem | 
+		(breakpointItem class className = FieldWatchpoint className) ifTrue: [ self inform: 'TODO'. ].
+		(breakpointItem class className = Breakpoint className) ifTrue: [ ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
+	].
 
 ]
 
@@ -146,6 +149,17 @@ SessionService class >> registerStepOver: context [
 	
 	(Delay forMilliseconds: 100) wait.
 	
+
+]
+
+{ #category : #public }
+SessionService class >> registerWatchpointAdd: nodeContext [
+
+	currentSession ifNil: [ ^self ].
+
+	nodeContext ifNil: [ ^self ].
+	
+	ProcessorOfWatchpointAdd new process: nodeContext.
 
 ]
 

@@ -21,6 +21,10 @@ ProcessorOfWatchpointAdd >> process: aWatchpointNode [
 		
 	self processCodeFile: contextProperty.
 	
+	self processEvent: contextProperty.
+	
+	Repository save: SessionService getCurrentSession.
+	
 	breakpointData := self processBreakpoint: contextProperty.
 		
 	alreadyExist := false.
@@ -35,8 +39,6 @@ ProcessorOfWatchpointAdd >> process: aWatchpointNode [
 		].
 
 	alreadyExist ifTrue: [ ^self. ].
-		 
-	self processEvent: contextProperty.
 			
 	SessionService getCurrentSession addBreakpoint: breakpointData. 
 			

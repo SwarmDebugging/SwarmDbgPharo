@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ProcessorOfWatchpointAdd >> initialize [ 
 	self stepName: 'WatchpointAdd'.
-	self kind: 'WatchpointAdd'.
+	self kind: 'Watchpoint'.
 	self origin: 'AddedDuringDebug'.
 ]
 

@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ProcessorOfBreakpointAdd >> initialize [ 
 	self stepName: 'BreakpointAdd'.
-	self kind: 'BreakpointAdd'.
+	self kind: 'Line'.
 	self origin: 'AddedDuringDebug'.
 ]
 

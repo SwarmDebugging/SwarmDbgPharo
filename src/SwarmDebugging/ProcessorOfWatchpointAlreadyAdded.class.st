@@ -16,14 +16,9 @@ ProcessorOfWatchpointAlreadyAdded >> process: aWatchpointNode [
 
 	| contextProperty |
 		
-	contextProperty := ContextPropertyBreakpoint new extract: aWatchpointNode.
-	contextProperty stepName: self stepName.
-		
-	self processCodeFile: contextProperty.
-			
+	contextProperty := super process: aWatchpointNode.
+
 	SessionService getCurrentSession addBreakpoint: (self processBreakpoint: contextProperty). 			
-			
-	self processEvent: contextProperty.
 			
 	Repository save: SessionService getCurrentSession.
 ]

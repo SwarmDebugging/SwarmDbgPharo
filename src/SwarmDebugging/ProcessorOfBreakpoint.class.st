@@ -28,6 +28,23 @@ ProcessorOfBreakpoint >> origin: value [
 	origin := value
 ]
 
+{ #category : #accessing }
+ProcessorOfBreakpoint >> process: aBreakpointNode [ 
+
+	| contextProperty |
+		
+	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
+	contextProperty stepName: self stepName.
+		
+	self processCodeFile: contextProperty.
+
+	self processEvent: contextProperty.
+	
+	Repository save: SessionService getCurrentSession.
+	
+	^contextProperty.
+]
+
 { #category : #process }
 ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [ 
 

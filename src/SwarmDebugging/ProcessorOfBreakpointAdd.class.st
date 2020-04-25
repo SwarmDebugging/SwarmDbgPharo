@@ -16,14 +16,7 @@ ProcessorOfBreakpointAdd >> process: aBreakpointNode [
 
 	| contextProperty breakpointData alreadyExist |
 		
-	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
-	contextProperty stepName: self stepName.
-
-	self processCodeFile: contextProperty.
-	
-	self processEvent: contextProperty.
-
-	Repository save: SessionService getCurrentSession.	
+	contextProperty := super process: aBreakpointNode.
 	
 	breakpointData := self processBreakpoint: contextProperty.
 

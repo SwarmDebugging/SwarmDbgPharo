@@ -12,7 +12,7 @@ Class {
 { #category : #public }
 SessionService class >> endCurrentSession [ 
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 
 	currentSession finished: DateAndTimeSwarm now.
 
@@ -37,7 +37,7 @@ SessionService class >> getSwarmWindowData [
 { #category : #public }
 SessionService class >> registerAlreadyAddedBreakpoints [
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 	
 	Breakpoint all do: [ :breakpointItem | 
 		(breakpointItem isWatchpoint) ifTrue: [ 
@@ -53,7 +53,7 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 { #category : #public }
 SessionService class >> registerBreakpointActive: nodeContext [
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
 	
@@ -66,7 +66,7 @@ SessionService class >> registerBreakpointActive: nodeContext [
 { #category : #public }
 SessionService class >> registerBreakpointAdd: nodeContext [
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
 	
@@ -79,7 +79,7 @@ SessionService class >> registerBreakpointAdd: nodeContext [
 { #category : #public }
 SessionService class >> registerBreakpointHit: nodeContext [
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
 	
@@ -92,7 +92,7 @@ SessionService class >> registerBreakpointHit: nodeContext [
 { #category : #public }
 SessionService class >> registerBreakpointRemove: nodeContext [
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
 	
@@ -105,7 +105,7 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 { #category : #public }
 SessionService class >> registerNewSession [
 
-	currentSession ifNotNil: [ self endCurrentSession ].
+	self getCurrentSession ifNotNil: [ self endCurrentSession ].
 
 	swarmWindowData ifNil:[ swarmWindowData := 
 		WindowProperty new 
@@ -167,7 +167,7 @@ SessionService class >> registerStepOver: context [
 { #category : #public }
 SessionService class >> registerWatchpointAdd: nodeContext [
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
 	
@@ -180,7 +180,7 @@ SessionService class >> registerWatchpointAdd: nodeContext [
 { #category : #public }
 SessionService class >> registerWatchpointRemove: nodeContext [
 
-	currentSession ifNil: [ ^self ].
+	self getCurrentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
 	

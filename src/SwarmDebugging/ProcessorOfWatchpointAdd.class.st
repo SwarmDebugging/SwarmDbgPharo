@@ -4,6 +4,14 @@ Class {
 	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
+{ #category : #process }
+ProcessorOfWatchpointAdd >> extract: aContext [ 
+
+	self variableName: (aContext variable ifNil: [ aContext name ] ifNotNil: [ aContext variable name ] ).
+	self variableValue: (aContext value ifNotNil: [ aContext value name ]).
+
+]
+
 { #category : #initialization }
 ProcessorOfWatchpointAdd >> initialize [ 
 	self stepName: 'WatchpointAdd'.
@@ -11,14 +19,16 @@ ProcessorOfWatchpointAdd >> initialize [
 	self origin: 'AddedDuringDebug'.
 ]
 
-{ #category : #accessing }
+{ #category : #process }
 ProcessorOfWatchpointAdd >> process: aWatchpointNode [ 
 
-	| contextProperty breakpointData alreadyExist |
+	| breakpointData alreadyExist |
 		
-	contextProperty := super process: aWatchpointNode.
+	self extract: aWatchpointNode.
+		
+	super process: aWatchpointNode.
 	
-	breakpointData := self processBreakpoint: contextProperty.
+	breakpointData := self processBreakpoint.
 		
 	alreadyExist := false.
 	SessionService getCurrentSession breakpoints do: [

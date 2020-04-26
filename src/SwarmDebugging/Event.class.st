@@ -16,7 +16,10 @@ Class {
 		'codeFilePath',
 		'lineNumber',
 		'lineOfCode',
-		'created'
+		'created',
+		'objectId',
+		'variableName',
+		'variableValue'
 	],
 	#category : #'SwarmDebugging-Repository-DataModel'
 }
@@ -87,6 +90,11 @@ Event >> namespace: value [
 ]
 
 { #category : #accessing }
+Event >> objectId: value [
+	objectId := value
+]
+
+{ #category : #accessing }
 Event >> type: value [
 	type := value
 ]
@@ -94,4 +102,14 @@ Event >> type: value [
 { #category : #accessing }
 Event >> typeFullPath: value [
 	typeFullPath := value
+]
+
+{ #category : #accessing }
+Event >> variableName: value [
+	variableName := value
+]
+
+{ #category : #accessing }
+Event >> variableValue: value [
+	variableValue := value
 ]

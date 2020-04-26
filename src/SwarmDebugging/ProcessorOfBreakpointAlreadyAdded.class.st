@@ -11,14 +11,12 @@ ProcessorOfBreakpointAlreadyAdded >> initialize [
 	self origin: 'AddedBeforeDebug'.
 ]
 
-{ #category : #accessing }
+{ #category : #process }
 ProcessorOfBreakpointAlreadyAdded >> process: aBreakpointNode [
 
-	| contextProperty |
-	
-	contextProperty := super process: aBreakpointNode.
+	super process: aBreakpointNode.
 			
-	SessionService getCurrentSession addBreakpoint: (self processBreakpoint: contextProperty). 			
+	SessionService getCurrentSession addBreakpoint: self processBreakpoint.
 			
 	Repository save: SessionService getCurrentSession.
 ]

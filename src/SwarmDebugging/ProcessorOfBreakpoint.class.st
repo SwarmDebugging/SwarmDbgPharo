@@ -8,6 +8,27 @@ Class {
 	#category : #'SwarmDebugging-SwarmCore-Domain'
 }
 
+{ #category : #process }
+ProcessorOfBreakpoint >> extract: aContext [
+
+	| namespaceWord |
+
+	self className: aContext methodNode methodClass asString.
+	self methodName: aContext methodNode selector asString.
+
+	[ namespaceWord := (Smalltalk at: self className asSymbol) package name  ] 
+		on: Exception
+		do: [ namespaceWord := 'NamespaceNotFound' ].
+
+	self packageName: namespaceWord.
+	self sourceCode: (aContext methodNode sourceCode asString) contents.
+	self charStart: aContext start.
+	self charEnd: aContext stop.
+	self lineOfCode: (aContext methodNode source copyFrom: self charStart to: self charEnd) asString.
+	self lineNumber: (aContext methodNode source copyFrom: 1 to: self charStart) asString lineCount.
+	
+]
+
 { #category : #accessing }
 ProcessorOfBreakpoint >> kind [
 	^kind
@@ -28,34 +49,29 @@ ProcessorOfBreakpoint >> origin: value [
 	origin := value
 ]
 
-{ #category : #accessing }
+{ #category : #process }
 ProcessorOfBreakpoint >> process: aBreakpointNode [ 
-
-	| contextProperty |
+	
+	self extract: aBreakpointNode.
 		
-	contextProperty := ContextPropertyBreakpoint new extract: aBreakpointNode.
-	contextProperty stepName: self stepName.
-		
-	self processCodeFile: contextProperty.
+	self processCodeFile.
 
-	self processEvent: contextProperty.
+	self processEvent.
 	
 	Repository save: SessionService getCurrentSession.
-	
-	^contextProperty.
 ]
 
 { #category : #process }
-ProcessorOfBreakpoint >> processBreakpoint: aContextProperty [ 
+ProcessorOfBreakpoint >> processBreakpoint [ 
 
 	^BreakpointData new 
 		id: UUID new printString;
 		breakpointKind: self kind;
-		namespace: aContextProperty packageName;
-		type: aContextProperty className;
-		codeFilePath: aContextProperty filePath;
-		lineNumber: aContextProperty lineNumber;
-		lineOfCode: aContextProperty lineOfCode;
+		namespace: self packageName;
+		type: self className;
+		codeFilePath: self filePath;
+		lineNumber: self lineNumber;
+		lineOfCode: self lineOfCode;
 		origin: self origin;
 		created: DateAndTimeSwarm now.	
 

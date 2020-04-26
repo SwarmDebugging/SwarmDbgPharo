@@ -11,14 +11,14 @@ ProcessorOfBreakpointAdd >> initialize [
 	self origin: 'AddedDuringDebug'.
 ]
 
-{ #category : #accessing }
+{ #category : #process }
 ProcessorOfBreakpointAdd >> process: aBreakpointNode [ 
 
-	| contextProperty breakpointData alreadyExist |
+	| breakpointData alreadyExist |
 		
-	contextProperty := super process: aBreakpointNode.
+	super process: aBreakpointNode.
 	
-	breakpointData := self processBreakpoint: contextProperty.
+	breakpointData := self processBreakpoint.
 
 	alreadyExist := false.
 	SessionService getCurrentSession breakpoints do: [

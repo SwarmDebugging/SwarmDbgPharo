@@ -5,45 +5,69 @@ Class {
 }
 
 { #category : #process }
+ProcessorOfStep >> extract: aContext [
+	
+	| typeWord namespaceWord lineOfCodeNode |
+	
+	typeWord := aContext methodClass asString.
+	((typeWord indexOfSubCollection: ' class') asNumber > 1) ifTrue: [
+			typeWord := typeWord copyFrom: 1 to: (typeWord indexOfSubCollection: ' class') - 1
+		].
+
+	lineOfCodeNode := (aContext method sourceNodeForPC: aContext pc).
+
+	[ namespaceWord := (Smalltalk at: typeWord asSymbol) package name  ] 
+		on: Exception
+		do: [ namespaceWord := 'NamespaceNotFound' ].
+	
+	self packageName: namespaceWord.
+	self className: typeWord.
+	self methodName: aContext methodSelector asString.
+	self sourceCode: (aContext sourceCode asString) contents.
+	self charStart: lineOfCodeNode start.
+	self charEnd: lineOfCodeNode stop.	
+	self lineOfCode: ( lineOfCodeNode source copyFrom: self charStart to: self charEnd ) asString.
+	self lineNumber: (lineOfCodeNode source copyFrom: 1 to: self charStart ) asString lineCount.
+
+		
+]
+
+{ #category : #process }
 ProcessorOfStep >> process: aContext [
 
-	| contextProperty |
+	self extract: aContext.
 
-	contextProperty := ContextPropertyStep new extract: aContext.
-	contextProperty stepName: self stepName.
-
-	self processCodeFile: contextProperty.
+	self processCodeFile.
 	
-	self processEvent: contextProperty.
+	self processEvent.
 	
-	self processPathNode: contextProperty.
+	self processPathNode.
 	
 	Repository save: SessionService getCurrentSession.
 ]
 
 { #category : #process }
-ProcessorOfStep >> processPathNode: aContextProperty [ 
+ProcessorOfStep >> processPathNode [ 
 
 	| pathNode |
 
 	pathNode := PathNode new 
 		id: UUID new printString;
 		hash: '';
-		namespace: aContextProperty packageName;
-		type: aContextProperty className;
-		method: aContextProperty methodName;
+		namespace: self packageName;
+		type: self className;
+		method: self methodName;
 		parent: nil;
 		parent_Id: (SessionService getCurrentSession pathNodes isEmpty 
 			ifTrue: [ '00000000-0000-0000-0000-000000000000' ] 
 			ifFalse: [ SessionService getCurrentSession pathNodes last id ]);
-		origin: aContextProperty stepName;
+		origin: self stepName;
 		returnType: 'void';
 		parameters: OrderedCollection new;
-		event_Id: aContextProperty event_id;
+		event_Id: self event_id;
 		created: DateAndTimeSwarm now.
 		
 	SessionService getCurrentSession addPathNode: pathNode.	
-		
-	^self.
+
 
 ]

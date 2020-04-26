@@ -178,6 +178,23 @@ SessionService class >> registerWatchpointAdd: nodeContext [
 ]
 
 { #category : #public }
+SessionService class >> registerWatchpointAdd: nodeCollection instanceObject: instanceObject [
+
+	self getCurrentSession ifNil: [ ^self ].
+	
+	nodeCollection do: [ :node | "Test if node is not null and send it to processor espcifc for instance (needs to be created)" ]
+
+	"TODO"
+
+"	nodeContext ifNil: [ ^self ].
+	
+	ProcessorOfWatchpointAdd new process: nodeContext.
+	
+	ActionSynchronizer wait."
+
+]
+
+{ #category : #public }
 SessionService class >> registerWatchpointRemove: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -187,6 +204,23 @@ SessionService class >> registerWatchpointRemove: nodeContext [
 	ProcessorOfWatchpointRemove new process: nodeContext.
 	
 	ActionSynchronizer wait.
+
+]
+
+{ #category : #public }
+SessionService class >> registerWatchpointRemove: nodeCollection instanceObject: instanceObject [
+
+	self getCurrentSession ifNil: [ ^self ].
+
+	nodeCollection do: [ :node | node ifNotNil: [ ProcessorOfWatchpointRemove new process: node. ] ]
+
+	"instanceOject is indeed necessary here? because it is enough register the remove and nothing todo with the instance"
+
+"	nodeContext ifNil: [ ^self ].
+	
+	ProcessorOfWatchpointRemove new process: nodeContext.
+	
+	ActionSynchronizer wait."
 
 ]
 

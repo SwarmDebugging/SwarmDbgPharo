@@ -52,6 +52,30 @@ ProcessorOfBreakpoint >> extract: aVariable class: aClass [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+ProcessorOfBreakpoint >> extract: aVariable instance: aObject [
+
+	| namespaceWord |
+
+	self className: aObject class asString.
+	self methodName: nil.
+
+	[ namespaceWord := (Smalltalk at: self className asSymbol) package name  ] 
+		on: Exception
+		do: [ namespaceWord := 'NamespaceNotFound' ].
+
+	self packageName: namespaceWord.
+	self sourceCode: nil.
+	self charStart: nil.
+	self charEnd: nil.
+	self lineOfCode: nil.
+	self lineNumber: nil.
+	self objectId: aObject identityHash asString.
+	
+	self variableName: aVariable asString.
+	
+]
+
 { #category : #accessing }
 ProcessorOfBreakpoint >> kind [
 	^kind
@@ -88,6 +112,16 @@ ProcessorOfBreakpoint >> process: aBreakpointNode [
 ProcessorOfBreakpoint >> process: aVariable class: aClass [
  
 	self extract: aVariable class: aClass.
+
+	self processEvent.
+	
+	Repository save: SessionService getCurrentSession.
+]
+
+{ #category : #'as yet unclassified' }
+ProcessorOfBreakpoint >> process: aVariable instance: aObject [
+ 
+	self extract: aVariable instance: aObject.
 
 	self processEvent.
 	

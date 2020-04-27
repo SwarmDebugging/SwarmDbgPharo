@@ -233,6 +233,20 @@ SessionService class >> registerWatchpointVariableAdd: aVariable targetClass: aC
 ]
 
 { #category : #public }
+SessionService class >> registerWatchpointVariableAdd: aVariable targetInstance: aObject [
+
+	self getCurrentSession ifNil: [ ^self ].
+
+	aVariable ifNil: [ ^self ].
+	aObject ifNil: [ ^self ].
+	
+	ProcessorOfWatchpointObjectVariableAdd new process: aVariable instance: aObject.
+	
+	ActionSynchronizer wait.
+
+]
+
+{ #category : #public }
 SessionService class >> registerWatchpointVariableRemove: aVariable targetClass: aClass [
 
 	self getCurrentSession ifNil: [ ^self ].

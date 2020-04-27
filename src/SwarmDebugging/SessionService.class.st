@@ -185,7 +185,7 @@ SessionService class >> registerWatchpointAdd: nodeContext instanceObject: insta
 	nodeContext ifNil: [ ^self ].
 	instanceObject ifNil: [ ^self ].
 	
-	ProcessorOfWatchpointAdd new process: nodeContext instanceObject: instanceObject.
+	ProcessorOfWatchpointObjectAdd new process: nodeContext instanceObject: instanceObject.
 	
 	ActionSynchronizer wait.
 

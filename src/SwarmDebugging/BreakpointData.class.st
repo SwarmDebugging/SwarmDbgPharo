@@ -10,7 +10,8 @@ Class {
 		'lineNumber',
 		'lineOfCode',
 		'origin',
-		'created'
+		'created',
+		'objectId'
 	],
 	#category : #'SwarmDebugging-Repository-DataModel'
 }
@@ -68,6 +69,11 @@ BreakpointData >> lineOfCode: value [
 { #category : #accessing }
 BreakpointData >> namespace: value [
 	namespace := value
+]
+
+{ #category : #accessing }
+BreakpointData >> objectId: value [
+	objectId := value
 ]
 
 { #category : #accessing }

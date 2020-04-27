@@ -238,6 +238,20 @@ SessionService class >> registerWatchpointVariableAdd: aVariable targetClass: aC
 
 ]
 
+{ #category : #public }
+SessionService class >> registerWatchpointVariableRemove: aVariable targetClass: aClass [
+
+	self getCurrentSession ifNil: [ ^self ].
+
+	aVariable ifNil: [ ^self ].
+	aClass ifNil: [ ^self ].
+	
+	ProcessorOfWatchpointVariableRemove new process: aVariable class: aClass.
+	
+	ActionSynchronizer wait.
+
+]
+
 { #category : #initialization }
 SessionService class >> reset [
 	<script: 'self reset'>

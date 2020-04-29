@@ -7,8 +7,9 @@ Class {
 { #category : #process }
 ProcessorOfWatchpointAlreadyAdded >> extract: aContext [ 
 
-	self variableName: (aContext variable ifNil: [ aContext name ] ifNotNil: [ aContext variable name ] ).
-	self variableValue: (aContext value ifNotNil: [ aContext value name ]).
+	self extractForWatchpoint: aContext.
+	
+	super extract: aContext.
 ]
 
 { #category : #initialization }
@@ -20,8 +21,6 @@ ProcessorOfWatchpointAlreadyAdded >> initialize [
 
 { #category : #accessing }
 ProcessorOfWatchpointAlreadyAdded >> process: aWatchpointNode [
-		
-	self extract: aWatchpointNode.
 	
 	super process: aWatchpointNode.
 

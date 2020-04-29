@@ -40,10 +40,17 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 	self getCurrentSession ifNil: [ ^self ].
 	
 	Breakpoint all do: [ :breakpointItem | 
-		(breakpointItem isWatchpoint) 
+		breakpointItem isWatchpoint
 		ifTrue: [ 
-				breakpointItem link nodes do: [ :node | ProcessorOfWatchpointAlreadyAdded new process: node. ActionSynchronizer wait. ].
-				breakpointItem targetVariableNames do: [ :item |  ProcessorOfWatchpointVariableAdd new process: item  class: breakpointItem targetClassOrMethod. ActionSynchronizer wait. ]
+				breakpointItem targetInstance 
+				ifNil: [
+						breakpointItem link nodes do: [ :node | ProcessorOfWatchpointAlreadyAdded new process: node. ActionSynchronizer wait. ].
+						breakpointItem targetVariableNames do: [ :item |  ProcessorOfWatchpointVariableAdd new process: item  class: breakpointItem targetClassOrMethod. ActionSynchronizer wait. ]
+					]
+				ifNotNil: [
+						breakpointItem link nodes do: [ :node | ProcessorOfWatchpointObjectAlreadyAdd new process: node instanceObject: breakpointItem targetInstance. ActionSynchronizer wait. ].
+						breakpointItem targetVariableNames do: [ :item |  ProcessorOfWatchpointObjectVariableAdd new process: item  instance: breakpointItem targetInstance. ActionSynchronizer wait. ]
+					].
 			]
 		ifFalse: [ ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
 		

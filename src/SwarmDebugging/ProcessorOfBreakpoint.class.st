@@ -79,16 +79,20 @@ ProcessorOfBreakpoint >> extract: aVariable instance: aObject [
 { #category : #process }
 ProcessorOfBreakpoint >> extractForWatchpoint: aContext [ 
 
-	| variableExist valueExist |
+	| variableExist valueExist valueNameExist |
 	
 	variableExist := false.
 	valueExist := false.
+	valueNameExist := false.
 	
 	aContext class allInstVarNames do: [ :item | (item = #variable) ifTrue: [ variableExist := true. ] ].
 	aContext class allInstVarNames do: [ :item | (item = #value) ifTrue: [ valueExist := true. ] ].
+	
+	valueExist ifTrue: [ aContext value class allInstVarNames do: [ :item | (item = #name) ifTrue: [ valueNameExist := true. ] ]	].
 
 	self variableName: (variableExist ifFalse: [ aContext name ] ifTrue: [ aContext variable name ] ).
-	self variableValue: (valueExist ifTrue: [ aContext value name ]).
+	self variableValue: (valueExist ifTrue: [ valueNameExist ifTrue: [ aContext value name ] ifFalse: [ aContext value value ] ]).
+	
 ]
 
 { #category : #accessing }

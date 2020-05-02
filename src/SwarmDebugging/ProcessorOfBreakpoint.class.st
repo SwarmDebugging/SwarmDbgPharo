@@ -32,10 +32,21 @@ ProcessorOfBreakpoint >> extract: aContext [
 { #category : #'as yet unclassified' }
 ProcessorOfBreakpoint >> extract: aVariable class: aClass [
 
-	| namespaceWord |
+	| namespaceWord classOrMethod methodIndex classPart methodPart |
 
-	self className: aClass asString.
-	self methodName: nil.
+	classPart := aClass name asString.
+	methodPart := nil.
+
+	classOrMethod := aClass name asString.
+	methodIndex := classOrMethod indexOfSubCollection: '>>'.
+
+	(methodIndex > 0) ifTrue: [ 
+			classPart := classOrMethod copyFrom: 1 to: methodIndex - 1.
+			methodPart := classOrMethod copyFrom: (methodIndex + 3) to: classOrMethod size.		
+		 ].
+
+	self className: classPart.
+	self methodName: methodPart.
 
 	[ namespaceWord := (Smalltalk at: self className asSymbol) package name  ] 
 		on: Exception

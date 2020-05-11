@@ -213,13 +213,14 @@ SessionService class >> registerWatchpointHit: nodeContext variableValue: aValue
 ]
 
 { #category : #public }
-SessionService class >> registerWatchpointHit: nodeContext variableValue: value targetInstance: aObject [
+SessionService class >> registerWatchpointHit: nodeContext variableValue: aValue targetInstance: aObject [
 
 	self getCurrentSession ifNil: [ ^self ].
 
 	nodeContext ifNil: [ ^self ].
+	aObject ifNil: [ ^self ].
 	
-	"ProcessorOfBreakpointHit new process: nodeContext."
+	ProcessorOfWatchpointObjectHit new process: nodeContext variableValue: aValue instance: aObject.
 	
 	ActionSynchronizer wait.
 

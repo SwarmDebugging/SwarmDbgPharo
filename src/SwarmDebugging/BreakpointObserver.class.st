@@ -23,6 +23,9 @@ BreakpointObserver >> update: aNotification [
 						aNotification nodes do: [ :node | SessionService registerWatchpointRemove: node ].
 						aNotification breakpoint targetVariableNames do: [ :item | SessionService registerWatchpointVariableRemove: item  targetClass: aNotification breakpoint targetClassOrMethod] 
 					].
+				(aNotification class className = BreakpointHitNotification className) ifTrue: [ 
+						SessionService registerWatchpointHit: aNotification nodes first variableValue: aNotification valueOrNil.
+					].
 				 ] 
 			ifNotNil: [ 
 				(aNotification class className = BreakpointAddedNotification className) ifTrue: [ 
@@ -33,6 +36,9 @@ BreakpointObserver >> update: aNotification [
 							aNotification nodes do: [ :node | SessionService registerWatchpointRemove: node instanceObject: (aNotification breakpoint targetInstance) ].
 							aNotification breakpoint targetVariableNames do: [ :item | SessionService registerWatchpointVariableRemove: item  targetInstance: aNotification breakpoint targetInstance] 
 						].
+				(aNotification class className = BreakpointHitNotification className) ifTrue: [ 
+							SessionService registerWatchpointHit: aNotification nodes first variableValue: (aNotification valueOrNil) targetInstance: aNotification breakpoint targetInstance.
+						].					
 				 ].	
 	]
 ]

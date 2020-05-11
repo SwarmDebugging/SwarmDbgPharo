@@ -201,6 +201,31 @@ SessionService class >> registerWatchpointAdd: nodeContext instanceObject: insta
 ]
 
 { #category : #public }
+SessionService class >> registerWatchpointHit: nodeContext variableValue: aValue [
+
+	self getCurrentSession ifNil: [ ^self ].
+
+	nodeContext ifNil: [ ^self ].
+	
+	ProcessorOfWatchpointHit new process: nodeContext variableValue: aValue.
+	
+	ActionSynchronizer wait.
+]
+
+{ #category : #public }
+SessionService class >> registerWatchpointHit: nodeContext variableValue: value targetInstance: aObject [
+
+	self getCurrentSession ifNil: [ ^self ].
+
+	nodeContext ifNil: [ ^self ].
+	
+	"ProcessorOfBreakpointHit new process: nodeContext."
+	
+	ActionSynchronizer wait.
+
+]
+
+{ #category : #public }
 SessionService class >> registerWatchpointRemove: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].

@@ -1,3 +1,6 @@
+"
+I listen to BreakpointAnnouncements. Upon such announcement, I register the related breakpoints to the Swarm session.
+"
 Class {
 	#name : #BreakpointObserver,
 	#superclass : #Object,

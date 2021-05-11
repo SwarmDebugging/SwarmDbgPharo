@@ -9,7 +9,6 @@ Class {
 
 { #category : #execution }
 SwarmStepIntoCommand >> execute [
-
 	SessionService registerStepInto: self debugger currentContext.
 	super execute
 ]

@@ -37,26 +37,12 @@ SessionService class >> getSwarmWindowData [
 { #category : #public }
 SessionService class >> registerAlreadyAddedBreakpoints [
 
-	self getCurrentSession ifNil: [ ^self ].
-	
-	Breakpoint all do: [ :breakpointItem | 
-		breakpointItem isWatchpoint
-		ifTrue: [ 
-				breakpointItem targetInstance 
-				ifNil: [
-						breakpointItem link nodes do: [ :node | ProcessorOfWatchpointAlreadyAdded new process: node. ActionSynchronizer wait. ].
-						breakpointItem targetVariableNames do: [ :item |  ProcessorOfWatchpointVariableAdd new process: item  class: breakpointItem targetClassOrMethod. ActionSynchronizer wait. ]
-					]
-				ifNotNil: [
-						breakpointItem link nodes do: [ :node | ProcessorOfWatchpointObjectAlreadyAdd new process: node instanceObject: breakpointItem targetInstance. ActionSynchronizer wait. ].
-						breakpointItem targetVariableNames do: [ :item |  ProcessorOfWatchpointObjectVariableAdd new process: item  instance: breakpointItem targetInstance. ActionSynchronizer wait. ]
-					].
-			]
-		ifFalse: [ ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
-		
-		ActionSynchronizer wait.
-	].
+	self getCurrentSession ifNil: [ ^ self ].
 
+	Breakpoint all do: [ :breakpointItem | 
+		self registerExistingBreakpoint: breakpointItem.
+
+		ActionSynchronizer wait ]
 ]
 
 { #category : #public }
@@ -109,6 +95,33 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 	
 	ActionSynchronizer wait.
 
+]
+
+{ #category : #public }
+SessionService class >> registerExistingBreakpoint: aBreakpoint [
+
+	aBreakpoint isVariableBreakpoint ifFalse: [ 
+		ProcessorOfBreakpointAlreadyAdded new process: aBreakpoint node.
+		^ self ].
+
+	aBreakpoint targetInstance ifNil: [ 
+		aBreakpoint link nodes do: [ :node | 
+			ProcessorOfWatchpointAlreadyAdded new process: node.
+			ActionSynchronizer wait ].
+		aBreakpoint targetVariableNames do: [ :item | 
+			ProcessorOfWatchpointVariableAdd new
+				process: item
+				class: aBreakpoint targetClassOrMethod ].
+		^ self ].
+
+	aBreakpoint link nodes do: [ :node | 
+		ProcessorOfWatchpointObjectAlreadyAdd new
+			process: node
+			instanceObject: aBreakpoint targetInstance ].
+	aBreakpoint targetVariableNames do: [ :item | 
+		ProcessorOfWatchpointObjectVariableAdd new
+			process: item
+			instance: aBreakpoint targetInstance ]
 ]
 
 { #category : #public }

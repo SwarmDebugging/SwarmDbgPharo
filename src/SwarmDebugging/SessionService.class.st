@@ -165,6 +165,16 @@ SessionService class >> registerNewSession [
 ]
 
 { #category : #public }
+SessionService class >> registerRestart: context [
+	
+	self getCurrentSession ifNil: [ ^self ].
+	
+	ProcessorOfRestart new process: context.
+	
+	ActionSynchronizer wait.
+]
+
+{ #category : #public }
 SessionService class >> registerStepInto: context [
 	
 	self getCurrentSession ifNil: [ ^self ].

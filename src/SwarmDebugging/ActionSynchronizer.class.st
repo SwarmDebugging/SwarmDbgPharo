@@ -6,5 +6,7 @@ Class {
 
 { #category : #waiting }
 ActionSynchronizer class >> wait [
-	(Delay forMilliseconds: 100) wait.
+
+	Repository isRemoteLogMode ifFalse: [ ^ self ].
+	100 milliSeconds wait
 ]

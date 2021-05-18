@@ -19,6 +19,12 @@ Repository class >> defaultLogMode [
 	 ^self localLogMode
 ]
 
+{ #category : #testing }
+Repository class >> isRemoteLogMode [
+
+	^ self logMode = self remoteLogMode
+]
+
 { #category : #logging }
 Repository class >> localLog: aString [
 	|str|
@@ -91,7 +97,7 @@ Repository class >> save: dataObject [
 			            mapInstVarsFor: BreakpointData;
 			            nextPut: dataObject ].
 
-	self logMode = self remoteLogMode ifTrue: [ 
+	self isRemoteLogMode ifTrue: [ 
 		self remoteLog: jsonData.
 		^ self ].
 	self localLog: jsonData

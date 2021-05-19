@@ -51,7 +51,7 @@ Repository class >> logDir [
 { #category : #logging }
 Repository class >> logFileReference [
 	| fname fr |
-	fname := SessionManager default currentSession id asString.
+	fname := SessionService getCurrentSession hash asString.
 	fr := self logDir / fname.
 	fr ensureCreateFile.
 	^ fr

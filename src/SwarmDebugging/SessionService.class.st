@@ -15,12 +15,9 @@ SessionService class >> endCurrentSession [
 	self getCurrentSession ifNil: [ ^self ].
 
 	currentSession finished: DateAndTimeSwarm now.
-
 	Repository save: currentSession.
-
-	Breakpoint unregisterObserver: breakpointObserver.
 	
-	self reset.
+	self reset
 	
 ]
 
@@ -158,8 +155,6 @@ SessionService class >> registerNewSession [
 	Repository save: currentSession.
 
 	breakpointObserver := BreakpointObserver new.
-	Breakpoint registerObserver: breakpointObserver.
-
 	self registerAlreadyAddedBreakpoints.
 
 ]
@@ -335,7 +330,9 @@ SessionService class >> registerWatchpointVariableRemove: aVariable targetInstan
 { #category : #initialization }
 SessionService class >> reset [
 	<script: 'self reset'>
-	currentSession := nil
+	currentSession := nil.
+	breakpointObserver := nil.
+	Smalltalk garbageCollect 
 ]
 
 { #category : #public }

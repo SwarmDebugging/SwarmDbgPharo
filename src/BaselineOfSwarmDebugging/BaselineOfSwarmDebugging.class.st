@@ -15,6 +15,13 @@ BaselineOfSwarmDebugging >> baseline: spec [
 			with: [ spec repository: 'github://svenvc/NeoJSON/repository' ] ]
 ]
 
+{ #category : #accessing }
+BaselineOfSwarmDebugging >> postload: loader package: packageSpec [
+
+	OupsDebuggerSelectionStrategy debuggerSelectionStrategy:
+		SwarmSingleDebuggerSelector
+]
+
 { #category : #baselines }
 BaselineOfSwarmDebugging >> projectClass [
 	^ MetacelloCypressBaselineProject

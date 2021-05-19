@@ -1,3 +1,6 @@
+"
+I register restart actions in the swarm instance.
+"
 Class {
 	#name : #SwarmRestartCommand,
 	#superclass : #StRestartCommand,

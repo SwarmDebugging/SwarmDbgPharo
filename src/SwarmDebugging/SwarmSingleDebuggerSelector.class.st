@@ -10,6 +10,6 @@ Class {
 { #category : #debuggers }
 SwarmSingleDebuggerSelector >> openDebuggerForSession: aDebugSession [
 
-	SessionService registerNewSession.
+	SessionService registerDebuggerOpening: aDebugSession interruptedContext.
 	super openDebuggerForSession: aDebugSession
 ]

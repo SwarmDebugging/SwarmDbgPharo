@@ -95,6 +95,16 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 ]
 
 { #category : #public }
+SessionService class >> registerDebuggerOpening: context [
+	
+	self getCurrentSession ifNil: [ ^self ].
+	
+	ProcessorOfDebuggerOpening new process: context.
+	
+	ActionSynchronizer wait.
+]
+
+{ #category : #public }
 SessionService class >> registerExistingBreakpoint: aBreakpoint [
 
 	aBreakpoint isVariableBreakpoint ifFalse: [ 

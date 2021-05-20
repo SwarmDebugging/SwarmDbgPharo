@@ -29,8 +29,6 @@ Repository class >> isRemoteLogMode [
 Repository class >> localLog: aString [
 	|str|
 	str := self stream.
-	str setToEnd.
-	str crlf.
 	str nextPutAll: aString.	
 	str close
 ]

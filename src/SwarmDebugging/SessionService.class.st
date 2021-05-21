@@ -15,12 +15,9 @@ SessionService class >> endCurrentSession [
 	self getCurrentSession ifNil: [ ^self ].
 
 	currentSession finished: DateAndTimeSwarm now.
-
 	Repository save: currentSession.
-
-	Breakpoint unregisterObserver: breakpointObserver.
 	
-	self reset.
+	self reset
 	
 ]
 
@@ -37,26 +34,12 @@ SessionService class >> getSwarmWindowData [
 { #category : #public }
 SessionService class >> registerAlreadyAddedBreakpoints [
 
-	self getCurrentSession ifNil: [ ^self ].
-	
-	Breakpoint all do: [ :breakpointItem | 
-		breakpointItem isWatchpoint
-		ifTrue: [ 
-				breakpointItem targetInstance 
-				ifNil: [
-						breakpointItem link nodes do: [ :node | ProcessorOfWatchpointAlreadyAdded new process: node. ActionSynchronizer wait. ].
-						breakpointItem targetVariableNames do: [ :item |  ProcessorOfWatchpointVariableAdd new process: item  class: breakpointItem targetClassOrMethod. ActionSynchronizer wait. ]
-					]
-				ifNotNil: [
-						breakpointItem link nodes do: [ :node | ProcessorOfWatchpointObjectAlreadyAdd new process: node instanceObject: breakpointItem targetInstance. ActionSynchronizer wait. ].
-						breakpointItem targetVariableNames do: [ :item |  ProcessorOfWatchpointObjectVariableAdd new process: item  instance: breakpointItem targetInstance. ActionSynchronizer wait. ]
-					].
-			]
-		ifFalse: [ ProcessorOfBreakpointAlreadyAdded new process: breakpointItem node ].
-		
-		ActionSynchronizer wait.
-	].
+	self getCurrentSession ifNil: [ ^ self ].
 
+	Breakpoint all do: [ :breakpointItem | 
+		self registerExistingBreakpoint: breakpointItem.
+
+		ActionSynchronizer wait ]
 ]
 
 { #category : #public }
@@ -112,6 +95,43 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 ]
 
 { #category : #public }
+SessionService class >> registerDebuggerOpening: context [
+	
+	self getCurrentSession ifNil: [ ^self ].
+	
+	ProcessorOfDebuggerOpening new process: context.
+	
+	ActionSynchronizer wait.
+]
+
+{ #category : #public }
+SessionService class >> registerExistingBreakpoint: aBreakpoint [
+
+	aBreakpoint isVariableBreakpoint ifFalse: [ 
+		ProcessorOfBreakpointAlreadyAdded new process: aBreakpoint node.
+		^ self ].
+
+	aBreakpoint targetInstance ifNil: [ 
+		aBreakpoint link nodes do: [ :node | 
+			ProcessorOfWatchpointAlreadyAdded new process: node.
+			ActionSynchronizer wait ].
+		aBreakpoint targetVariableNames do: [ :item | 
+			ProcessorOfWatchpointVariableAdd new
+				process: item
+				class: aBreakpoint targetClassOrMethod ].
+		^ self ].
+
+	aBreakpoint link nodes do: [ :node | 
+		ProcessorOfWatchpointObjectAlreadyAdd new
+			process: node
+			instanceObject: aBreakpoint targetInstance ].
+	aBreakpoint targetVariableNames do: [ :item | 
+		ProcessorOfWatchpointObjectVariableAdd new
+			process: item
+			instance: aBreakpoint targetInstance ]
+]
+
+{ #category : #public }
 SessionService class >> registerNewSession [
 
 	self getCurrentSession ifNotNil: [ self endCurrentSession ].
@@ -145,10 +165,18 @@ SessionService class >> registerNewSession [
 	Repository save: currentSession.
 
 	breakpointObserver := BreakpointObserver new.
-	Breakpoint registerObserver: breakpointObserver.
-
 	self registerAlreadyAddedBreakpoints.
 
+]
+
+{ #category : #public }
+SessionService class >> registerRestart: context [
+	
+	self getCurrentSession ifNil: [ ^self ].
+	
+	ProcessorOfRestart new process: context.
+	
+	ActionSynchronizer wait.
 ]
 
 { #category : #public }
@@ -312,7 +340,9 @@ SessionService class >> registerWatchpointVariableRemove: aVariable targetInstan
 { #category : #initialization }
 SessionService class >> reset [
 	<script: 'self reset'>
-	currentSession := nil
+	currentSession := nil.
+	breakpointObserver := nil.
+	Smalltalk garbageCollect 
 ]
 
 { #category : #public }

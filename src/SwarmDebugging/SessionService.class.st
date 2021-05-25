@@ -4,12 +4,18 @@ Class {
 	#classInstVars : [
 		'currentSession',
 		'swarmWindowData',
-		'breakpointObserver'
+		'breakpointObserver',
+		'developerID'
 	],
 	#category : #'SwarmDebugging-SwarmCore-Service'
 }
 
-{ #category : #public }
+{ #category : #accessing }
+SessionService class >> developerID [
+	 ^developerID ifNil:[developerID := UUID new]
+]
+
+{ #category : #'session management' }
 SessionService class >> endCurrentSession [ 
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -21,17 +27,17 @@ SessionService class >> endCurrentSession [
 	
 ]
 
-{ #category : #public }
+{ #category : #accessing }
 SessionService class >> getCurrentSession [
 	^currentSession
 ]
 
-{ #category : #public }
+{ #category : #accessing }
 SessionService class >> getSwarmWindowData [
 	^swarmWindowData
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerAlreadyAddedBreakpoints [
 
 	self getCurrentSession ifNil: [ ^ self ].
@@ -42,7 +48,7 @@ SessionService class >> registerAlreadyAddedBreakpoints [
 		ActionSynchronizer wait ]
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerBreakpointActive: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -55,7 +61,7 @@ SessionService class >> registerBreakpointActive: nodeContext [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerBreakpointAdd: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -68,7 +74,7 @@ SessionService class >> registerBreakpointAdd: nodeContext [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerBreakpointHit: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -81,7 +87,7 @@ SessionService class >> registerBreakpointHit: nodeContext [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerBreakpointRemove: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -94,7 +100,7 @@ SessionService class >> registerBreakpointRemove: nodeContext [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerDebuggerOpening: context [
 	
 	self getCurrentSession ifNil: [ ^self ].
@@ -104,7 +110,7 @@ SessionService class >> registerDebuggerOpening: context [
 	ActionSynchronizer wait.
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerExistingBreakpoint: aBreakpoint [
 
 	aBreakpoint isVariableBreakpoint ifFalse: [ 
@@ -131,7 +137,7 @@ SessionService class >> registerExistingBreakpoint: aBreakpoint [
 			instance: aBreakpoint targetInstance ]
 ]
 
-{ #category : #public }
+{ #category : #'session management' }
 SessionService class >> registerNewSession [
 
 	self getCurrentSession ifNotNil: [ self endCurrentSession ].
@@ -169,7 +175,7 @@ SessionService class >> registerNewSession [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerRestart: context [
 	
 	self getCurrentSession ifNil: [ ^self ].
@@ -179,7 +185,7 @@ SessionService class >> registerRestart: context [
 	ActionSynchronizer wait.
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerStepInto: context [
 	
 	self getCurrentSession ifNil: [ ^self ].
@@ -189,7 +195,7 @@ SessionService class >> registerStepInto: context [
 	ActionSynchronizer wait.
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerStepOver: context [
 	
 	self getCurrentSession ifNil: [ ^self ].
@@ -201,7 +207,7 @@ SessionService class >> registerStepOver: context [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointAdd: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -214,7 +220,7 @@ SessionService class >> registerWatchpointAdd: nodeContext [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointAdd: nodeContext instanceObject: instanceObject [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -228,7 +234,7 @@ SessionService class >> registerWatchpointAdd: nodeContext instanceObject: insta
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointHit: nodeContext variableValue: aValue [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -240,7 +246,7 @@ SessionService class >> registerWatchpointHit: nodeContext variableValue: aValue
 	ActionSynchronizer wait.
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointHit: nodeContext variableValue: aValue targetInstance: aObject [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -254,7 +260,7 @@ SessionService class >> registerWatchpointHit: nodeContext variableValue: aValue
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointRemove: nodeContext [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -267,7 +273,7 @@ SessionService class >> registerWatchpointRemove: nodeContext [
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointRemove: nodeContext instanceObject: instanceObject [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -281,7 +287,7 @@ SessionService class >> registerWatchpointRemove: nodeContext instanceObject: in
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointVariableAdd: aVariable targetClass: aClass [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -295,7 +301,7 @@ SessionService class >> registerWatchpointVariableAdd: aVariable targetClass: aC
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointVariableAdd: aVariable targetInstance: aObject [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -309,7 +315,7 @@ SessionService class >> registerWatchpointVariableAdd: aVariable targetInstance:
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointVariableRemove: aVariable targetClass: aClass [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -323,7 +329,7 @@ SessionService class >> registerWatchpointVariableRemove: aVariable targetClass:
 
 ]
 
-{ #category : #public }
+{ #category : #registering }
 SessionService class >> registerWatchpointVariableRemove: aVariable targetInstance: aObject [
 
 	self getCurrentSession ifNil: [ ^self ].
@@ -337,7 +343,7 @@ SessionService class >> registerWatchpointVariableRemove: aVariable targetInstan
 
 ]
 
-{ #category : #initialization }
+{ #category : #'session management' }
 SessionService class >> reset [
 	<script: 'self reset'>
 	currentSession := nil.
@@ -345,7 +351,7 @@ SessionService class >> reset [
 	Smalltalk garbageCollect 
 ]
 
-{ #category : #public }
+{ #category : #accessing }
 SessionService class >> setSwarmWindowData: windowProPerty [
 	swarmWindowData := windowProPerty
 ]

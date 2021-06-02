@@ -16,7 +16,7 @@ ProcessorOfWatchpointHit >> process: aBreakpointNode variableValue: aValue [
 
 	self extract: aBreakpointNode.
 	
-	self variableValue: aValue.
+	self variableValue: aValue printString.
 	
 	variableExist := false.
 	

@@ -68,7 +68,7 @@ ProcessorOfBreakpoint >> extract: aVariable instance: aObject [
 
 	| namespaceWord |
 
-	self className: aObject class asString.
+	self className: aObject class name.
 	self methodName: nil.
 
 	[ namespaceWord := (Smalltalk at: self className asSymbol) package name  ] 
@@ -100,9 +100,9 @@ ProcessorOfBreakpoint >> extractForWatchpoint: aContext [
 	aContext class allInstVarNames do: [ :item | (item = #value) ifTrue: [ valueExist := true. ] ].
 	
 	valueExist ifTrue: [ aContext value class allInstVarNames do: [ :item | (item = #name) ifTrue: [ valueNameExist := true. ] ]	].
-
+	
 	self variableName: (variableExist ifFalse: [ aContext name ] ifTrue: [ aContext variable name ] ).
-	self variableValue: (valueExist ifTrue: [ valueNameExist ifTrue: [ aContext value name ] ifFalse: [ aContext value value ] ]).
+	self variableValue: (valueExist ifTrue: [ valueNameExist ifTrue: [ aContext value name ] ifFalse: [ aContext value value ifNotNil:[:n| n sourceCode] ]]).
 	
 ]
 

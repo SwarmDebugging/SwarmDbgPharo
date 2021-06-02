@@ -42,16 +42,6 @@ SwarmWindow class >> defaultSpec [
 	yourself
 ]
 
-{ #category : #'world menu' }
-SwarmWindow class >> menuCommandOn: aBuilder [
-<worldMenu>
-
-(aBuilder item: #'SwarmDebugging')
-    order: 0.1;
-    label: 'Swarm Debugging';
-    action: [ SwarmWindow new openWithSpec. ]
-]
-
 { #category : #accessing }
 SwarmWindow >> buttonSave [
 	^ buttonSave
